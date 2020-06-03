@@ -10,38 +10,38 @@
 #include <iosfwd>
 #include <string>
 
-#include <boost/core/explicit_operator_bool.hpp>
+// There was an inclusion of an explicit_operator_bool.hpp file from Boost - but it seems not to be used anywhere.
 
-#include <stacktrace/safe_dump_to.hpp> // stacktrace::detail::native_frame_ptr_t
+#include <stacktrace/safe_dump_to.hpp> // stacktrace_::detail::native_frame_ptr_t
 
 #include <stacktrace/detail/frame_decl.hpp>
 #include <stacktrace/detail/push_options.h>
 
-namespace stacktrace {
+namespace stacktrace_ {
 
 /// Comparison operators that provide platform dependant ordering and have O(1) complexity; are Async-Handler-Safe.
-BOOST_CONSTEXPR inline bool operator< (const frame& lhs, const frame& rhs) BOOST_NOEXCEPT { return lhs.address() < rhs.address(); }
-BOOST_CONSTEXPR inline bool operator> (const frame& lhs, const frame& rhs) BOOST_NOEXCEPT { return rhs < lhs; }
-BOOST_CONSTEXPR inline bool operator<=(const frame& lhs, const frame& rhs) BOOST_NOEXCEPT { return !(lhs > rhs); }
-BOOST_CONSTEXPR inline bool operator>=(const frame& lhs, const frame& rhs) BOOST_NOEXCEPT { return !(lhs < rhs); }
-BOOST_CONSTEXPR inline bool operator==(const frame& lhs, const frame& rhs) BOOST_NOEXCEPT { return lhs.address() == rhs.address(); }
-BOOST_CONSTEXPR inline bool operator!=(const frame& lhs, const frame& rhs) BOOST_NOEXCEPT { return !(lhs == rhs); }
+constexpr inline bool operator< (const frame& lhs, const frame& rhs) noexcept { return lhs.address() < rhs.address(); }
+constexpr inline bool operator> (const frame& lhs, const frame& rhs) noexcept { return rhs < lhs; }
+constexpr inline bool operator<=(const frame& lhs, const frame& rhs) noexcept { return !(lhs > rhs); }
+constexpr inline bool operator>=(const frame& lhs, const frame& rhs) noexcept { return !(lhs < rhs); }
+constexpr inline bool operator==(const frame& lhs, const frame& rhs) noexcept { return lhs.address() == rhs.address(); }
+constexpr inline bool operator!=(const frame& lhs, const frame& rhs) noexcept { return !(lhs == rhs); }
 
 /// Fast hashing support, O(1) complexity; Async-Handler-Safe.
-inline std::size_t hash_value(const frame& f) BOOST_NOEXCEPT {
+inline std::size_t hash_value(const frame& f) noexcept {
     return reinterpret_cast<std::size_t>(f.address());
 }
 
-/// Outputs stacktrace::frame in a human readable format to string; unsafe to use in async handlers.
-STACKTRACE_FUNCTION std::string to_string(const frame& f);
+/// Outputs stacktrace_::frame in a human readable format to string; unsafe to use in async handlers.
+std::string to_string(const frame& f);
 
-/// Outputs stacktrace::frame in a human readable format to output stream; unsafe to use in async handlers.
+/// Outputs stacktrace_::frame in a human readable format to output stream; unsafe to use in async handlers.
 template <class CharT, class TraitsT>
 std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT>& os, const frame& f) {
-    return os << stacktrace::to_string(f);
+    return os << stacktrace_::to_string(f);
 }
 
-}} // namespace boost::stacktrace
+} //  namespace stacktrace_
 
 /// @cond
 

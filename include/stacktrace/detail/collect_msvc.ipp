@@ -4,21 +4,17 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef STACKTRACE_DETAIL_COLLECT_MSVC_IPP
-#define STACKTRACE_DETAIL_COLLECT_MSVC_IPP
-
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#ifndef STACKTRACE_DETAIL_COLLECT_MSVC_IPP_
+#define STACKTRACE_DETAIL_COLLECT_MSVC_IPP_
 
 #include <stacktrace/safe_dump_to.hpp>
-
 #include <boost/winapi/stack_backtrace.hpp>
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { 
+namespace detail {
 
-std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::size_t max_frames_count, std::size_t skip) BOOST_NOEXCEPT {
+std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::size_t max_frames_count, std::size_t skip) BOOST_NOEXCEPT 
+{
     return boost::winapi::RtlCaptureStackBackTrace(
         static_cast<boost::winapi::ULONG_>(skip),
         static_cast<boost::winapi::ULONG_>(max_frames_count),
@@ -27,7 +23,7 @@ std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::siz
     );
 }
 
+} // namespace detail
+} // namespace stacktrace_
 
-}}} // namespace boost::stacktrace
-
-#endif // STACKTRACE_DETAIL_COLLECT_MSVC_IPP
+#endif // STACKTRACE_DETAIL_COLLECT_MSVC_IPP_

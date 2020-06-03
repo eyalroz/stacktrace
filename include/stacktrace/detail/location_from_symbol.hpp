@@ -7,25 +7,22 @@
 #ifndef STACKTRACE_DETAIL_LOCATION_FROM_SYMBOL_HPP_
 #define STACKTRACE_DETAIL_LOCATION_FROM_SYMBOL_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#include <stacktrace/boost-modified/config/platform.hpp>
 
-#if !defined(BOOST_WINDOWS) && !defined(__CYGWIN__)
+#if !defined(STACKTRACE_WINDOWS) && !defined(__CYGWIN__)
 #   include <dlfcn.h>
 #else
 #   include <boost/winapi/dll.hpp>
 #endif
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { namespace detail {
 
-#if !defined(BOOST_WINDOWS) && !defined(__CYGWIN__)
+#if !defined(STACKTRACE_WINDOWS) && !defined(__CYGWIN__)
 class location_from_symbol {
     ::Dl_info dli_;
 
 public:
-    explicit location_from_symbol(const void* addr) BOOST_NOEXCEPT
+    explicit location_from_symbol(const void* addr) noexcept
         : dli_()
     {
         if (!::dladdr(const_cast<void*>(addr), &dli_)) { // `dladdr` on Solaris accepts nonconst addresses
@@ -33,18 +30,18 @@ public:
         }
     }
 
-    bool empty() const BOOST_NOEXCEPT {
+    bool empty() const noexcept {
         return !dli_.dli_fname;
     }
 
-    const char* name() const BOOST_NOEXCEPT {
+    const char* name() const noexcept {
         return dli_.dli_fname;
     }
 };
 
 class program_location {
 public:
-    const char* name() const BOOST_NOEXCEPT {
+    const char* name() const noexcept {
         return 0;
     }
 };
@@ -52,11 +49,11 @@ public:
 #else
 
 class location_from_symbol {
-    BOOST_STATIC_CONSTEXPR boost::winapi::DWORD_ DEFAULT_PATH_SIZE_ = 260;
+    static constexpr boost::winapi::DWORD_ DEFAULT_PATH_SIZE_ = 260;
     char file_name_[DEFAULT_PATH_SIZE_];
 
 public:
-    explicit location_from_symbol(const void* addr) BOOST_NOEXCEPT {
+    explicit location_from_symbol(const void* addr) noexcept {
         file_name_[0] = '\0';
 
         boost::winapi::MEMORY_BASIC_INFORMATION_ mbi;
@@ -71,21 +68,21 @@ public:
         }
     }
 
-    bool empty() const BOOST_NOEXCEPT {
+    bool empty() const noexcept {
         return file_name_[0] == '\0';
     }
 
-    const char* name() const BOOST_NOEXCEPT {
+    const char* name() const noexcept {
         return file_name_;
     }
 };
 
 class program_location {
-    BOOST_STATIC_CONSTEXPR boost::winapi::DWORD_ DEFAULT_PATH_SIZE_ = 260;
+    static constexpr boost::winapi::DWORD_ DEFAULT_PATH_SIZE_ = 260;
     char file_name_[DEFAULT_PATH_SIZE_];
 
 public:
-    program_location() BOOST_NOEXCEPT {
+    program_location() noexcept {
         file_name_[0] = '\0';
 
         const boost::winapi::HMODULE_ handle = 0;
@@ -94,12 +91,12 @@ public:
         }
     }
 
-    const char* name() const BOOST_NOEXCEPT {
+    const char* name() const noexcept {
         return file_name_[0] ? file_name_ : 0;
     }
 };
 #endif
 
-}}} // namespace stacktrace::detail
+}} //  namespace stacktrace_::detail
 
 #endif // STACKTRACE_DETAIL_LOCATION_FROM_SYMBOL_HPP_

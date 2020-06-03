@@ -4,20 +4,15 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef STACKTRACE_DETAIL_COLLECT_UNWIND_IPP
-#define STACKTRACE_DETAIL_COLLECT_UNWIND_IPP
-
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#ifndef STACKTRACE_DETAIL_COLLECT_UNWINDIPP_
+#define STACKTRACE_DETAIL_COLLECT_UNWINDIPP_
 
 #include <stacktrace/safe_dump_to.hpp>
 
 // On iOS 32-bit ARM architecture _Unwind_Backtrace function doesn't exist, symbol is undefined.
 // Forcing libc backtrace() function usage.
-#include <boost/predef.h>
-#if defined(BOOST_OS_IOS_AVAILABLE) && defined(BOOST_ARCH_ARM_AVAILABLE) && BOOST_VERSION_NUMBER_MAJOR(BOOST_ARCH_ARM) < 8
+#include <stacktrace/boost-modified/config/ios_and_arm.hpp>
+#if defined(STACKTRACE_OS_IOS_AVAILABLE) && defined(STACKTRACE_ARCH_ARM_AVAILABLE) && STACKTRACE_ARCH_ARM < 8
 #define STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION
 #endif
 
@@ -29,11 +24,12 @@
 #endif
 #include <cstdio>
 
-#if !defined(_GNU_SOURCE) && !defined(STACKTRACE_GNU_SOURCE_NOT_REQUIRED) && !defined(BOOST_WINDOWS)
+#if !defined(_GNU_SOURCE) && !defined(STACKTRACE_GNU_SOURCE_NOT_REQUIRED) && !defined(STACKTRACE_WINDOWS)
 #error "Boost.Stacktrace requires `_Unwind_Backtrace` function. Define `_GNU_SOURCE` macro or `STACKTRACE_GNU_SOURCE_NOT_REQUIRED` if _Unwind_Backtrace is available without `_GNU_SOURCE`."
 #endif
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ {
+ namespace detail {
 
 #if !defined(STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION)
 struct unwind_state {
@@ -63,7 +59,7 @@ inline _Unwind_Reason_Code unwind_callback(::_Unwind_Context* context, void* arg
 }
 #endif //!defined(STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION)
 
-std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::size_t max_frames_count, std::size_t skip) BOOST_NOEXCEPT {
+std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::size_t max_frames_count, std::size_t skip) noexcept {
     std::size_t frames_count = 0;
     if (!max_frames_count) {
         return frames_count;
@@ -86,8 +82,8 @@ std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::siz
         }
     }
 #else
-    stacktrace::detail::unwind_state state = { skip, out_frames, out_frames + max_frames_count };
-    ::_Unwind_Backtrace(&stacktrace::detail::unwind_callback, &state);
+    stacktrace_::detail::unwind_state state = { skip, out_frames, out_frames + max_frames_count };
+    ::_Unwind_Backtrace(&stacktrace_::detail::unwind_callback, &state);
     frames_count = state.current - out_frames;
 #endif //defined(STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION)
 
@@ -99,8 +95,9 @@ std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::siz
 }
 
 
-}}} // namespace stacktrace::detail
+} //  namespace detail
+} //  namespace stacktrace_
 
 #undef STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION
 
-#endif // STACKTRACE_DETAIL_COLLECT_UNWIND_IPP
+#endif // STACKTRACE_DETAIL_COLLECT_UNWINDIPP_

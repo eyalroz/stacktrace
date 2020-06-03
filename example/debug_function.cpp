@@ -14,7 +14,7 @@ void print_signal_handler_and_exit() {
     typedef void(*function_t)(int);
 
     function_t old_signal_function = ::signal(SIGSEGV, SIG_DFL);
-    stacktrace::frame f(old_signal_function);
+    stacktrace_::frame f(old_signal_function);
     std::cout << f << std::endl;
     std::exit(0);
 }

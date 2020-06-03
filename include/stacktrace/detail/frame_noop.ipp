@@ -4,17 +4,12 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef STACKTRACE_DETAIL_FRAME_NOOP_IPP
-#define STACKTRACE_DETAIL_FRAME_NOOP_IPP
-
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#ifndef STACKTRACE_DETAIL_FRAME_NOOPIPP_
+#define STACKTRACE_DETAIL_FRAME_NOOPIPP_
 
 #include <stacktrace/frame.hpp>
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { namespace detail {
 
 std::string to_string(const frame* /*frames*/, std::size_t /*count*/) {
     return std::string();
@@ -39,6 +34,6 @@ std::string to_string(const frame& /*f*/) {
 }
 
 
-}} // namespace boost::stacktrace
+} //  namespace stacktrace_
 
-#endif // STACKTRACE_DETAIL_FRAME_NOOP_IPP
+#endif // STACKTRACE_DETAIL_FRAME_NOOPIPP_

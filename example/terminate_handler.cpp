@@ -4,12 +4,13 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/array.hpp>
-BOOST_NOINLINE void foo(int i);
-BOOST_NOINLINE void bar(int i);
+#include <array>
+#include <stacktrace/boost-modified/config/detail/suffix.hpp> // for STACKTRACE_NOINLINE
+STACKTRACE_NOINLINE void foo(int i);
+STACKTRACE_NOINLINE void bar(int i);
  
-BOOST_NOINLINE void bar(int i) {
-    boost::array<int, 5> a = {{-1, -231, -123, -23, -32}};
+STACKTRACE_NOINLINE void bar(int i) {
+    std::array<int, 5> a = {{-1, -231, -123, -23, -32}};
     if (i >= 0) {
         foo(a[i]);
     } else {
@@ -17,7 +18,7 @@ BOOST_NOINLINE void bar(int i) {
     }
 }
 
-BOOST_NOINLINE void foo(int i) {
+STACKTRACE_NOINLINE void foo(int i) {
     bar(--i);
 }
 
@@ -26,11 +27,11 @@ BOOST_NOINLINE void foo(int i) {
 //[getting_started_terminate_handlers
 
 #include <signal.h>     // ::signal, ::raise
-#include <boost/stacktrace.hpp>
+#include <stacktrace.hpp>
 
 void my_signal_handler(int signum) {
     ::signal(signum, SIG_DFL);
-    stacktrace::safe_dump_to("./backtrace.dump");
+    stacktrace_::safe_dump_to("./backtrace.dump");
     ::raise(SIGABRT);
 }
 //]
@@ -44,10 +45,10 @@ void setup_handlers() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-BOOST_CONSTEXPR_OR_CONST std::size_t shared_memory_size = 4096 * 8;
+constexpr std::size_t shared_memory_size = 4096 * 8;
 
 //[getting_started_terminate_handlers_shmem
-#include <boost/stacktrace.hpp>
+#include <stacktrace.hpp>
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 
@@ -59,7 +60,7 @@ void my_signal_handler2(int signum) {
     ::signal(signum, SIG_DFL);
     void** f = static_cast<void**>(g_region.get_address());
     *f = reinterpret_cast<void*>(1);                      // Setting flag that shared memory now constains stacktrace.
-    stacktrace::safe_dump_to(f + 1, g_region.get_size() - sizeof(void*));
+    stacktrace_::safe_dump_to(f + 1, g_region.get_size() - sizeof(void*));
 
     ::raise(SIGABRT);
 }
@@ -104,7 +105,7 @@ int run_2(const char* argv[]) {
             return 21;
         }
 
-        stacktrace::stacktrace st = stacktrace::stacktrace::from_dump(std::cin);
+        stacktrace_::stacktrace st = stacktrace_::stacktrace::from_dump(std::cin);
         if (st) {
             return 22;
         }
@@ -116,7 +117,7 @@ int run_2(const char* argv[]) {
         // there is a backtrace
         std::ifstream ifs("./backtrace.dump");
 
-        stacktrace::stacktrace st = stacktrace::stacktrace::from_dump(ifs);
+        stacktrace_::stacktrace st = stacktrace_::stacktrace::from_dump(ifs);
         std::cout << "Previous run crashed:\n" << st << std::endl; /*<-*/
 
         if (!st) {
@@ -169,8 +170,8 @@ int run_4(const char* argv[]) {
 //[getting_started_on_program_restart_shmem
     void** f = static_cast<void**>(g_region.get_address());
     if (*f) {                                                 // Checking if memory constains stacktrace.
-        stacktrace::stacktrace st 
-            = stacktrace::stacktrace::from_dump(f + 1, g_region.get_size() - sizeof(bool));
+        stacktrace_::stacktrace st 
+            = stacktrace_::stacktrace::from_dump(f + 1, g_region.get_size() - sizeof(bool));
 
         std::cout << "Previous run crashed and left trace in shared memory:\n" << st << std::endl;
         *f = 0; /*<-*/
@@ -196,16 +197,16 @@ int run_4(const char* argv[]) {
 #include <sstream>
 
 int test_inplace() {
-    const bool is_noop = !stacktrace::stacktrace();
+    const bool is_noop = !stacktrace_::stacktrace();
 
     {
         // This is very dependent on compiler and link flags. No sane way to make it work, because:
-        // * BOOST_NOINLINE could be ignored by MSVC compiler if link-time optimization is enabled.
+        // * STACKTRACE_NOINLINE could be ignored by MSVC compiler if link-time optimization is enabled.
         // * BOOST_FORCEINLINE could be ignored by GCC depending on the std::vector default constructor length.
-        const std::size_t frames_ss1 = stacktrace::safe_dump_to("./backtrace2.dump");
-        stacktrace::stacktrace ss2;
+        const std::size_t frames_ss1 = stacktrace_::safe_dump_to("./backtrace2.dump");
+        stacktrace_::stacktrace ss2;
         std::ifstream ifs("./backtrace2.dump");
-        stacktrace::stacktrace ss1 = stacktrace::stacktrace::from_dump(ifs);
+        stacktrace_::stacktrace ss1 = stacktrace_::stacktrace::from_dump(ifs);
         ifs.close();
         boost::filesystem::remove("./backtrace2.dump");
 
@@ -218,12 +219,12 @@ int test_inplace() {
 
     {
         // This is very dependent on compiler and link flags. No sane way to make it work, because:
-        // * BOOST_NOINLINE could be ignored by MSVC compiler if link-time optimization is enabled.
+        // * STACKTRACE_NOINLINE could be ignored by MSVC compiler if link-time optimization is enabled.
         // * BOOST_FORCEINLINE could be ignored by GCC depending on the std::vector default constructor length.
         void* data[1024];
-        const std::size_t frames_ss1 = stacktrace::safe_dump_to(data, sizeof(data));
-        stacktrace::stacktrace ss2;
-        stacktrace::stacktrace ss1 = stacktrace::stacktrace::from_dump(data, sizeof(data));
+        const std::size_t frames_ss1 = stacktrace_::safe_dump_to(data, sizeof(data));
+        stacktrace_::stacktrace ss2;
+        stacktrace_::stacktrace ss1 = stacktrace_::stacktrace::from_dump(data, sizeof(data));
 
         if (ss1.size() + 1 != frames_ss1 || ss1.size() != ss2.size()) {
             std::cerr << "53: Stacktraces differ. Dumped size == " << frames_ss1 << ".\n" << ss1 << "\n vs \n" << ss2 << '\n';
@@ -234,8 +235,8 @@ int test_inplace() {
 
     {
         void* data[1024];
-        stacktrace::safe_dump_to(1024, data, sizeof(data));
-        if (stacktrace::stacktrace::from_dump(data, sizeof(data))) {
+        stacktrace_::safe_dump_to(1024, data, sizeof(data));
+        if (stacktrace_::stacktrace::from_dump(data, sizeof(data))) {
             std::cerr << "Stacktrace not empty!\n";
             return 55;
         }
@@ -243,14 +244,14 @@ int test_inplace() {
 
     {
         void* data[1024];
-        stacktrace::safe_dump_to(1, data, sizeof(data));
-        if (!is_noop && !stacktrace::stacktrace::from_dump(data, sizeof(data))) {
+        stacktrace_::safe_dump_to(1, data, sizeof(data));
+        if (!is_noop && !stacktrace_::stacktrace::from_dump(data, sizeof(data))) {
             std::cerr << "Stacktrace empty!\n";
             return 56;
         }
-        const std::size_t size_1_skipped = stacktrace::stacktrace::from_dump(data, sizeof(data)).size();
-        stacktrace::safe_dump_to(0, data, sizeof(data));
-        const std::size_t size_0_skipped = stacktrace::stacktrace::from_dump(data, sizeof(data)).size();
+        const std::size_t size_1_skipped = stacktrace_::stacktrace::from_dump(data, sizeof(data)).size();
+        stacktrace_::safe_dump_to(0, data, sizeof(data));
+        const std::size_t size_0_skipped = stacktrace_::stacktrace::from_dump(data, sizeof(data)).size();
 
         if (!is_noop && (size_1_skipped + 1 != size_0_skipped)) {
             std::cerr << "failed to skip 1 frame!\n";
@@ -259,14 +260,14 @@ int test_inplace() {
     }
 
     {
-        stacktrace::safe_dump_to(0, 1, "./backtrace3.dump");
+        stacktrace_::safe_dump_to(0, 1, "./backtrace3.dump");
         std::ifstream ifs("./backtrace3.dump");
-        stacktrace::stacktrace ss1 = stacktrace::stacktrace::from_dump(ifs);
+        stacktrace_::stacktrace ss1 = stacktrace_::stacktrace::from_dump(ifs);
         ifs.close();
 
-        stacktrace::safe_dump_to(1, 1, "./backtrace3.dump");
+        stacktrace_::safe_dump_to(1, 1, "./backtrace3.dump");
         ifs.open("./backtrace3.dump");
-        stacktrace::stacktrace ss2 = stacktrace::stacktrace::from_dump(ifs);
+        stacktrace_::stacktrace ss2 = stacktrace_::stacktrace::from_dump(ifs);
         ifs.close();
 
         boost::filesystem::remove("./backtrace3.dump");

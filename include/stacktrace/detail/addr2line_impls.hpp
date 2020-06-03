@@ -7,15 +7,10 @@
 #ifndef STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP_
 #define STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
-
 #include <stacktrace/detail/to_hex_array.hpp>
 #include <stacktrace/detail/to_dec_array.hpp>
 #include <stacktrace/detail/try_dec_convert.hpp>
-#include <boost/core/demangle.hpp>
+#include <stacktrace/boost-modified/core/demangle.hpp>
 #include <cstdio>
 
 #include <sys/types.h>
@@ -23,12 +18,12 @@
 #include <signal.h>
 
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { namespace detail {
 
 
-#if defined(STACKTRACE_ADDR2LINE_LOCATION) && !defined(BOOST_NO_CXX11_CONSTEXPR)
+#if defined(STACKTRACE_ADDR2LINE_LOCATION)
 
-constexpr bool is_abs_path(const char* path) BOOST_NOEXCEPT {
+constexpr bool is_abs_path(const char* path) noexcept {
     return *path != '\0' && (
         *path == ':' || *path == '/' || is_abs_path(path + 1)
     );
@@ -41,19 +36,17 @@ class addr2line_pipe {
     ::pid_t pid;
 
 public:
-    explicit addr2line_pipe(const char *flag, const char* exec_path, const char* addr) BOOST_NOEXCEPT
+    explicit addr2line_pipe(const char *flag, const char* exec_path, const char* addr) noexcept
         : p(0)
         , pid(0)
     {
         int pdes[2];
         #ifdef STACKTRACE_ADDR2LINE_LOCATION
         char prog_name[] = BOOST_STRINGIZE( STACKTRACE_ADDR2LINE_LOCATION );
-        #if !defined(BOOST_NO_CXX11_CONSTEXPR) && !defined(BOOST_NO_CXX11_STATIC_ASSERT)
         static_assert(
-            stacktrace::detail::is_abs_path( BOOST_STRINGIZE( STACKTRACE_ADDR2LINE_LOCATION ) ),
+            stacktrace_::detail::is_abs_path( BOOST_STRINGIZE( STACKTRACE_ADDR2LINE_LOCATION ) ),
             "STACKTRACE_ADDR2LINE_LOCATION must be an absolute path"
         );
-        #endif
 
         #else
         char prog_name[] = "/usr/bin/addr2line";
@@ -97,11 +90,11 @@ public:
         ::close(pdes[1]);
     }
 
-    operator ::FILE*() const BOOST_NOEXCEPT {
+    operator ::FILE*() const noexcept {
         return p;
     }
 
-    ~addr2line_pipe() BOOST_NOEXCEPT {
+    ~addr2line_pipe() noexcept {
         if (p) {
             ::fclose(p);
             int pstat = 0;
@@ -114,7 +107,7 @@ public:
 inline std::string addr2line(const char* flag, const void* addr) {
     std::string res;
 
-    stacktrace::detail::location_from_symbol loc(addr);
+    stacktrace_::detail::location_from_symbol loc(addr);
     if (!loc.empty()) {
         res = loc.name();
     } else {
@@ -159,12 +152,12 @@ inline std::string addr2line(const char* flag, const void* addr) {
 struct to_string_using_addr2line {
     std::string res;
     void prepare_function_name(const void* addr) {
-        res = stacktrace::frame(addr).name();
+        res = stacktrace_::frame(addr).name();
     }
 
     bool prepare_source_location(const void* addr) {
         //return addr2line("-Cfipe", addr); // Does not seem to work in all cases
-        std::string source_line = stacktrace::detail::addr2line("-Cpe", addr);
+        std::string source_line = stacktrace_::detail::addr2line("-Cpe", addr);
         if (!source_line.empty() && source_line[0] != '?') {
             res += " at ";
             res += source_line;
@@ -179,9 +172,9 @@ template <class Base> class to_string_impl_base;
 typedef to_string_impl_base<to_string_using_addr2line> to_string_impl;
 
 inline std::string name_impl(const void* addr) {
-    std::string res = stacktrace::detail::addr2line("-fe", addr);
+    std::string res = stacktrace_::detail::addr2line("-fe", addr);
     res = res.substr(0, res.find_last_of('\n'));
-    res = boost::core::demangle(res.c_str());
+    res = stacktrace_::core::demangle(res.c_str());
 
     if (res == "??") {
         res.clear();
@@ -194,7 +187,7 @@ inline std::string name_impl(const void* addr) {
 
 std::string frame::source_file() const {
     std::string res;
-    res = stacktrace::detail::addr2line("-e", addr_);
+    res = stacktrace_::detail::addr2line("-e", addr_);
     res = res.substr(0, res.find_last_of(':'));
     if (res == "??") {
         res.clear();
@@ -206,14 +199,14 @@ std::string frame::source_file() const {
 
 std::size_t frame::source_line() const {
     std::size_t line_num = 0;
-    std::string res = stacktrace::detail::addr2line("-e", addr_);
+    std::string res = stacktrace_::detail::addr2line("-e", addr_);
     const std::size_t last = res.find_last_of(':');
     if (last == std::string::npos) {
         return 0;
     }
     res = res.substr(last + 1);
 
-    if (!stacktrace::detail::try_dec_convert(res.c_str(), line_num)) {
+    if (!stacktrace_::detail::try_dec_convert(res.c_str(), line_num)) {
         return 0;
     }
 
@@ -221,6 +214,6 @@ std::size_t frame::source_line() const {
 }
 
 
-}} // namespace boost::stacktrace
+} //  namespace stacktrace_
 
 #endif // STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP_

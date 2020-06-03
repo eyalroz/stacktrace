@@ -7,18 +7,12 @@
 #ifndef STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP_
 #define STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#include <array>
 
-#include <boost/array.hpp>
+namespace stacktrace_ { namespace detail {
 
-namespace stacktrace { namespace detail {
-
-// We do not use boost::lexical_cast in this function to reduce module dependencies
-inline boost::array<char, 40> to_dec_array(std::size_t value) BOOST_NOEXCEPT {
-    boost::array<char, 40> ret;
+inline std::array<char, 40> to_dec_array(std::size_t value) noexcept {
+    std::array<char, 40> ret;
     if (!value) {
         ret[0] = '0';
         ret[1] = '\0';
@@ -41,6 +35,6 @@ inline boost::array<char, 40> to_dec_array(std::size_t value) BOOST_NOEXCEPT {
 }
 
 
-}}} // namespace stacktrace::detail
+}} //  namespace stacktrace_::detail
 
 #endif // STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP_

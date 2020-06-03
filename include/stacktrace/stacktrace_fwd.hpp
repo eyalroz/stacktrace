@@ -11,17 +11,17 @@
 #include <memory>
 
 /// @file stacktrace_fwd.hpp This header contains only forward declarations of
-/// stacktrace::frame, stacktrace::basic_stacktrace, stacktrace::stacktrace
+/// stacktrace_::frame, stacktrace_::basic_stacktrace, stacktrace::stacktrace
 /// and does not include any other Boost headers.
 
 /// @cond
-namespace stacktrace {
+namespace stacktrace_ {
 
 class frame;
 template <class Allocator = std::allocator<frame> > class basic_stacktrace;
 typedef basic_stacktrace<> stacktrace;
 
-}} // namespace boost::stacktrace
+} //  namespace stacktrace_
 /// @endcond
 
 

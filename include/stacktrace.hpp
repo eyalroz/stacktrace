@@ -8,7 +8,7 @@
 #define STACKTRACE_HPP_
 
 #include <stacktrace/frame.hpp>
-#include <stacktrace/stacktrace.hpp>
 #include <stacktrace/safe_dump_to.hpp>
+#include <stacktrace/stacktrace.hpp>
 
 #endif // STACKTRACE_HPP_

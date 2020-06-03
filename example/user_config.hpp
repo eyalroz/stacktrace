@@ -13,7 +13,7 @@
 
 #include <iosfwd>
 
-namespace stacktrace {
+namespace stacktrace_ {
 
 template <class CharT, class TraitsT, class Allocator>
 std::basic_ostream<CharT, TraitsT>& do_stream_st(std::basic_ostream<CharT, TraitsT>& os, const basic_stacktrace<Allocator>& bt);
@@ -23,7 +23,7 @@ std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT
     return do_stream_st(os, bt);
 }
 
-}}  // namespace boost::stacktrace
+}  // namespace stacktrace_
 #endif // USER_CONFIG_HPP
 //]
 
@@ -33,7 +33,7 @@ std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT
 #include <ios> // std::streamsize
 
 //[getting_started_user_config_impl
-namespace stacktrace {
+namespace stacktrace_ {
 
 template <class CharT, class TraitsT, class Allocator>
 std::basic_ostream<CharT, TraitsT>& do_stream_st(std::basic_ostream<CharT, TraitsT>& os, const basic_stacktrace<Allocator>& bt) {
@@ -51,7 +51,7 @@ std::basic_ostream<CharT, TraitsT>& do_stream_st(std::basic_ostream<CharT, Trait
     return os;
 }
 
-}}  // namespace boost::stacktrace
+}  // namespace stacktrace_
 //]
 
 #endif // USER_CONFIG2_HPP

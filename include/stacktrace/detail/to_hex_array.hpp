@@ -7,25 +7,17 @@
 #ifndef STACKTRACE_DETAIL_TO_HEX_ARRAY_HPP_
 #define STACKTRACE_DETAIL_TO_HEX_ARRAY_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#include <array>
 
-#include <boost/array.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/type_traits/make_unsigned.hpp>
+namespace stacktrace_ { namespace detail {
 
-namespace stacktrace { namespace detail {
-
-BOOST_STATIC_CONSTEXPR char to_hex_array_bytes[] = "0123456789ABCDEF";
+static constexpr char to_hex_array_bytes[] = "0123456789ABCDEF";
 
 template <class T>
-inline boost::array<char, 2 + sizeof(void*) * 2 + 1> to_hex_array(T addr) BOOST_NOEXCEPT {
-    boost::array<char, 2 + sizeof(void*) * 2 + 1> ret = {"0x"};
+inline std::array<char, 2 + sizeof(void*) * 2 + 1> to_hex_array(T addr) noexcept {
+    std::array<char, 2 + sizeof(void*) * 2 + 1> ret = {"0x"};
     ret.back() = '\0';
-    BOOST_STATIC_ASSERT_MSG(!boost::is_pointer<T>::value, "");
+    static_assert(!std::is_pointer<T>::value, "");
 
     const std::size_t s = sizeof(T);
 
@@ -43,12 +35,12 @@ inline boost::array<char, 2 + sizeof(void*) * 2 + 1> to_hex_array(T addr) BOOST_
     return ret;
 }
 
-inline boost::array<char, 2 + sizeof(void*) * 2 + 1> to_hex_array(const void* addr) BOOST_NOEXCEPT {
+inline std::array<char, 2 + sizeof(void*) * 2 + 1> to_hex_array(const void* addr) noexcept {
     return to_hex_array(
-        reinterpret_cast< boost::make_unsigned<std::ptrdiff_t>::type >(addr)
+        reinterpret_cast< std::make_unsigned<std::ptrdiff_t>::type >(addr)
     );
 }
 
-}}} // namespace stacktrace::detail
+}} //  namespace stacktrace_::detail
 
 #endif // STACKTRACE_DETAIL_TO_HEX_ARRAY_HPP_

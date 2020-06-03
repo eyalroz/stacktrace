@@ -4,22 +4,17 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef STACKTRACE_DETAIL_COLLECT_NOOP_IPP
-#define STACKTRACE_DETAIL_COLLECT_NOOP_IPP
-
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#ifndef STACKTRACE_DETAIL_COLLECT_NOOPIPP_
+#define STACKTRACE_DETAIL_COLLECT_NOOPIPP_
 
 #include <stacktrace/safe_dump_to.hpp>
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { namespace detail {
 
-std::size_t this_thread_frames::collect(native_frame_ptr_t* /*out_frames*/, std::size_t /*max_frames_count*/, std::size_t /*skip*/) BOOST_NOEXCEPT {
+std::size_t this_thread_frames::collect(native_frame_ptr_t* /*out_frames*/, std::size_t /*max_frames_count*/, std::size_t /*skip*/) noexcept {
     return 0;
 }
 
-}}} // namespace stacktrace::detail
+}} //  namespace stacktrace_::detail
 
-#endif // STACKTRACE_DETAIL_COLLECT_NOOP_IPP
+#endif // STACKTRACE_DETAIL_COLLECT_NOOPIPP_

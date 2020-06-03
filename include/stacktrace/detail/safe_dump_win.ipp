@@ -4,26 +4,21 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef STACKTRACE_DETAIL_SAFE_DUMP_WIN_IPP
-#define STACKTRACE_DETAIL_SAFE_DUMP_WIN_IPP
-
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#ifndef STACKTRACE_DETAIL_SAFE_DUMP_WINIPP_
+#define STACKTRACE_DETAIL_SAFE_DUMP_WINIPP_
 
 #include <stacktrace/safe_dump_to.hpp>
 
-#include <boost/core/noncopyable.hpp>
+#include <stacktrace/boost-modified/core/noncopyable.hpp>
 
 #include <boost/winapi/get_current_process.hpp>
 #include <boost/winapi/file_management.hpp>
 #include <boost/winapi/handles.hpp>
 #include <boost/winapi/access_rights.hpp>
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { namespace detail {
 
-std::size_t dump(void* /*fd*/, const native_frame_ptr_t* /*frames*/, std::size_t /*frames_count*/) BOOST_NOEXCEPT {
+std::size_t dump(void* /*fd*/, const native_frame_ptr_t* /*frames*/, std::size_t /*frames_count*/) noexcept {
 #if 0 // This code potentially could cause deadlocks (according to the MSDN). Disabled
     boost::winapi::DWORD_ written;
     const boost::winapi::DWORD_ bytes_to_write = static_cast<boost::winapi::DWORD_>(
@@ -38,7 +33,7 @@ std::size_t dump(void* /*fd*/, const native_frame_ptr_t* /*frames*/, std::size_t
     return 0;
 }
 
-std::size_t dump(const char* /*file*/, const native_frame_ptr_t* /*frames*/, std::size_t /*frames_count*/) BOOST_NOEXCEPT {
+std::size_t dump(const char* /*file*/, const native_frame_ptr_t* /*frames*/, std::size_t /*frames_count*/) noexcept {
 #if 0 // This code causing deadlocks on some platforms. Disabled
     void* const fd = boost::winapi::CreateFileA(
         file,
@@ -54,13 +49,13 @@ std::size_t dump(const char* /*file*/, const native_frame_ptr_t* /*frames*/, std
         return 0;
     }
 
-    const std::size_t size = stacktrace::detail::dump(fd, frames, frames_count);
+    const std::size_t size = stacktrace_::detail::dump(fd, frames, frames_count);
     boost::winapi::CloseHandle(fd);
     return size;
 #endif
     return 0;
 }
 
-}}} // namespace stacktrace::detail
+}} //  namespace stacktrace_::detail
 
-#endif // STACKTRACE_DETAIL_SAFE_DUMP_WIN_IPP
+#endif // STACKTRACE_DETAIL_SAFE_DUMP_WINIPP_

@@ -4,20 +4,15 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef STACKTRACE_DETAIL_FRAME_MSVC_IPP
-#define STACKTRACE_DETAIL_FRAME_MSVC_IPP
-
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
+#ifndef STACKTRACE_DETAIL_FRAME_MSVCIPP_
+#define STACKTRACE_DETAIL_FRAME_MSVCIPP_
 
 #include <stacktrace/frame.hpp>
 
-#include <boost/core/demangle.hpp>
-#include <boost/core/noncopyable.hpp>
+#include <stacktrace/boost-modified/core/demangle.hpp>
 #include <stacktrace/detail/to_dec_array.hpp>
 #include <stacktrace/detail/to_hex_array.hpp>
+#include <stacktrace/boost-modified/core/noncopyable.hpp>
 #include <windows.h>
 #include "dbgeng.h"
 
@@ -42,13 +37,13 @@
 // Testing. Remove later
 //#   define __uuidof(x) ::IID_ ## x
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { namespace detail {
 
-class com_global_initer: boost::noncopyable {
+class com_global_initer: noncopyable {
     bool ok_;
 
 public:
-    com_global_initer() BOOST_NOEXCEPT
+    com_global_initer() noexcept
         : ok_(false)
     {
         // COINIT_MULTITHREADED means that we must serialize access to the objects manually.
@@ -61,7 +56,7 @@ public:
         ok_ = (res == S_OK || res == S_FALSE);
     }
 
-    ~com_global_initer() BOOST_NOEXCEPT {
+    ~com_global_initer() noexcept {
         if (ok_) {
             ::CoUninitialize();
         }
@@ -70,27 +65,27 @@ public:
 
 
 template <class T>
-class com_holder: boost::noncopyable {
+class com_holder: noncopyable {
     T* holder_;
 
 public:
-    com_holder(const com_global_initer&) BOOST_NOEXCEPT
+    com_holder(const com_global_initer&) noexcept
         : holder_(0)
     {}
 
-    T* operator->() const BOOST_NOEXCEPT {
+    T* operator->() const noexcept {
         return holder_;
     }
 
-    void** to_void_ptr_ptr() BOOST_NOEXCEPT {
+    void** to_void_ptr_ptr() noexcept {
         return reinterpret_cast<void**>(&holder_);
     }
 
-    bool is_inited() const BOOST_NOEXCEPT {
+    bool is_inited() const noexcept {
         return !!holder_;
     }
 
-    ~com_holder() BOOST_NOEXCEPT {
+    ~com_holder() noexcept {
         if (holder_) {
             holder_->Release();
         }
@@ -105,10 +100,10 @@ inline std::string mingw_demangling_workaround(const std::string& s) {
     }
 
     if (s[0] != '_') {
-        return boost::core::demangle(('_' + s).c_str());
+        return demangle(('_' + s).c_str());
     }
 
-    return boost::core::demangle(s.c_str());
+    return demangle(s.c_str());
 #else
     return s;
 #endif
@@ -125,8 +120,8 @@ inline void trim_right_zeroes(std::string& s) {
     }
 }
 
-class debugging_symbols: boost::noncopyable {
-    static void try_init_com(com_holder< ::IDebugSymbols>& idebug, const com_global_initer& com) BOOST_NOEXCEPT {
+class debugging_symbols: stacktrace_::core::noncopyable {
+    static void try_init_com(com_holder< ::IDebugSymbols>& idebug, const com_global_initer& com) noexcept {
         com_holder< ::IDebugClient> iclient(com);
         if (S_OK != ::DebugCreate(__uuidof(IDebugClient), iclient.to_void_ptr_ptr())) {
             return;
@@ -160,10 +155,10 @@ class debugging_symbols: boost::noncopyable {
 
 #ifndef STACKTRACE_USE_WINDBG_CACHED
 
-    stacktrace::detail::com_global_initer com_;
+    stacktrace_::detail::com_global_initer com_;
     com_holder< ::IDebugSymbols> idebug_;
 public:
-    debugging_symbols() BOOST_NOEXCEPT
+    debugging_symbols() noexcept
         : com_()
         , idebug_(com_)
     {
@@ -172,14 +167,10 @@ public:
 
 #else
 
-#ifdef BOOST_NO_CXX11_THREAD_LOCAL
-#   error Your compiler does not support C++11 thread_local storage. It`s impossible to build with STACKTRACE_USE_WINDBG_CACHED.
-#endif
-
-    static com_holder< ::IDebugSymbols>& get_thread_local_debug_inst() BOOST_NOEXCEPT {
+    static com_holder< ::IDebugSymbols>& get_thread_local_debug_inst() noexcept {
         // [class.mfct]: A static local variable or local type in a member function always refers to the same entity, whether
         // or not the member function is inline.
-        static thread_local stacktrace::detail::com_global_initer com;
+        static thread_local stacktrace_::detail::com_global_initer com;
         static thread_local com_holder< ::IDebugSymbols> idebug(com);
 
         if (!idebug.is_inited()) {
@@ -191,13 +182,13 @@ public:
 
     com_holder< ::IDebugSymbols>& idebug_;
 public:
-    debugging_symbols() BOOST_NOEXCEPT
+    debugging_symbols() noexcept
         : idebug_( get_thread_local_debug_inst() )
     {}
 
 #endif // #ifndef STACKTRACE_USE_WINDBG_CACHED
 
-    bool is_inited() const BOOST_NOEXCEPT {
+    bool is_inited() const noexcept {
         return idebug_.is_inited();
     }
 
@@ -256,7 +247,7 @@ public:
         return result;
     }
 
-    std::size_t get_line_impl(const void* addr) const BOOST_NOEXCEPT {
+    std::size_t get_line_impl(const void* addr) const noexcept {
         ULONG result = 0;
         if (!is_inited()) {
             return result;
@@ -342,7 +333,7 @@ public:
             res += " at ";
             res += source_line.first;
             res += ':';
-            res += stacktrace::detail::to_dec_array(source_line.second).data();
+            res += stacktrace_::detail::to_dec_array(source_line.second).data();
         } else if (!module_name.empty()) {
             res += " in ";
             res += module_name;
@@ -351,7 +342,7 @@ public:
 };
 
 std::string to_string(const frame* frames, std::size_t size) {
-    stacktrace::detail::debugging_symbols idebug;
+    stacktrace_::detail::debugging_symbols idebug;
     if (!idebug.is_inited()) {
         return std::string();
     }
@@ -362,7 +353,7 @@ std::string to_string(const frame* frames, std::size_t size) {
         if (i < 10) {
             res += ' ';
         }
-        res += stacktrace::detail::to_dec_array(i).data();
+        res += stacktrace_::detail::to_dec_array(i).data();
         res += '#';
         res += ' ';
         idebug.to_string_impl(frames[i].address(), res);
@@ -375,29 +366,29 @@ std::string to_string(const frame* frames, std::size_t size) {
 } // namespace detail
 
 std::string frame::name() const {
-    stacktrace::detail::debugging_symbols idebug;
+    stacktrace_::detail::debugging_symbols idebug;
     return idebug.get_name_impl(addr_);
 }
 
 
 std::string frame::source_file() const {
-    stacktrace::detail::debugging_symbols idebug;
+    stacktrace_::detail::debugging_symbols idebug;
     return idebug.get_source_file_line_impl(addr_).first;
 }
 
 std::size_t frame::source_line() const {
-    stacktrace::detail::debugging_symbols idebug;
+    stacktrace_::detail::debugging_symbols idebug;
     return idebug.get_line_impl(addr_);
 }
 
 std::string to_string(const frame& f) {
     std::string res;
 
-    stacktrace::detail::debugging_symbols idebug;
+    stacktrace_::detail::debugging_symbols idebug;
     idebug.to_string_impl(f.address(), res);
     return res;
 }
 
-}} // namespace boost::stacktrace
+} //  namespace stacktrace_
 
-#endif // STACKTRACE_DETAIL_FRAME_MSVC_IPP
+#endif // STACKTRACE_DETAIL_FRAME_MSVCIPP_

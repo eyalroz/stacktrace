@@ -7,31 +7,26 @@
 #ifndef STACKTRACE_DETAIL_FRAME_DECL_HPP_
 #define STACKTRACE_DETAIL_FRAME_DECL_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
-
 #include <iosfwd>
 #include <string>
 
-#include <boost/core/explicit_operator_bool.hpp>
-
-#include <stacktrace/safe_dump_to.hpp> // stacktrace::detail::native_frame_ptr_t
-#include <stacktrace/detail/void_ptr_cast.hpp>
+// There used to be an inclusion here of an explicit bool conversion operator-related Boost header - but it seems it's not actually used.
 
 #include <stacktrace/detail/push_options.h>
+#include <stacktrace/detail/void_ptr_cast.hpp>
+#include <stacktrace/safe_dump_to.hpp> // stacktrace_::detail::native_frame_ptr_t
+
 
 /// @file stacktrace/detail/frame_decl.hpp
 /// Use <stacktrace/frame.hpp> header instead of this one!
 
-namespace stacktrace {
+namespace stacktrace_ {
 
-/// @class stacktrace::frame stacktrace/detail/frame_decl.hpp <stacktrace/frame.hpp>
+/// @class stacktrace_::frame stacktrace/detail/frame_decl.hpp <stacktrace/frame.hpp>
 /// @brief Class that stores frame/function address and can get information about it at runtime.
 class frame {
 public:
-    typedef stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
+    typedef stacktrace_::detail::native_frame_ptr_t native_frame_ptr_t;
 
 private:
     /// @cond
@@ -47,7 +42,7 @@ public:
     ///
     /// @b Async-Handler-Safety: Safe.
     /// @throws Nothing.
-    BOOST_CONSTEXPR frame() BOOST_NOEXCEPT
+    constexpr frame() noexcept
         : addr_(0)
     {}
 
@@ -75,7 +70,7 @@ public:
     ///
     /// @b Async-Handler-Safety: Safe.
     /// @throws Nothing.
-    BOOST_CONSTEXPR explicit frame(native_frame_ptr_t addr) BOOST_NOEXCEPT
+    constexpr explicit frame(native_frame_ptr_t addr) noexcept
         : addr_(addr)
     {}
 
@@ -86,8 +81,8 @@ public:
     /// @b Async-Handler-Safety: Safe.
     /// @throws Nothing.
     template <class T>
-    explicit frame(T* function_addr) BOOST_NOEXCEPT
-        : addr_(stacktrace::detail::void_ptr_cast<native_frame_ptr_t>(function_addr))
+    explicit frame(T* function_addr) noexcept
+        : addr_(stacktrace_::detail::void_ptr_cast<native_frame_ptr_t>(function_addr))
     {}
 
     /// @returns Name of the frame (function name in a human readable form).
@@ -96,7 +91,7 @@ public:
     ///
     /// @b Async-Handler-Safety: Unsafe.
     /// @throws std::bad_alloc if not enough memory to construct resulting string.
-    STACKTRACE_FUNCTION std::string name() const;
+    std::string name() const;
 
     /// @returns Address of the frame function.
     ///
@@ -104,7 +99,7 @@ public:
     ///
     /// @b Async-Handler-Safety: Safe.
     /// @throws Nothing.
-    BOOST_CONSTEXPR native_frame_ptr_t address() const BOOST_NOEXCEPT {
+    constexpr native_frame_ptr_t address() const noexcept {
         return addr_;
     }
 
@@ -115,7 +110,7 @@ public:
     /// @b Complexity: unknown (lots of platform specific work).
     ///
     /// @b Async-Handler-Safety: Unsafe.
-    STACKTRACE_FUNCTION std::string source_file() const;
+    std::string source_file() const;
 
     /// @returns Code line in the source file, were the function of the frame is defined.
     /// @throws std::bad_alloc if not enough memory to construct string for internal needs.
@@ -123,7 +118,7 @@ public:
     /// @b Complexity: unknown (lots of platform specific work).
     ///
     /// @b Async-Handler-Safety: Unsafe.
-    STACKTRACE_FUNCTION std::size_t source_line() const;
+    std::size_t source_line() const;
 
     /// @brief Checks that frame is not references NULL address.
     /// @returns `true` if `this->address() != 0`
@@ -131,7 +126,10 @@ public:
     /// @b Complexity: O(1)
     ///
     /// @b Async-Handler-Safety: Safe.
-    BOOST_EXPLICIT_OPERATOR_BOOL()
+    constexpr explicit operator bool () const noexcept
+    {
+        return !this->operator! ();
+    }
 
     /// @brief Checks that frame references NULL address.
     /// @returns `true` if `this->address() == 0`
@@ -139,19 +137,19 @@ public:
     /// @b Complexity: O(1)
     ///
     /// @b Async-Handler-Safety: Safe.
-    BOOST_CONSTEXPR bool empty() const BOOST_NOEXCEPT { return !address(); }
+    constexpr bool empty() const noexcept { return !address(); }
     
     /// @cond
-    BOOST_CONSTEXPR bool operator!() const BOOST_NOEXCEPT { return !address(); }
+    constexpr bool operator!() const noexcept { return !address(); }
     /// @endcond
 };
 
 
 namespace detail {
-    STACKTRACE_FUNCTION std::string to_string(const frame* frames, std::size_t size);
+    std::string to_string(const frame* frames, std::size_t size);
 } // namespace detail
 
-}} // namespace boost::stacktrace
+} //  namespace stacktrace_
 
 
 #include <stacktrace/detail/pop_options.h>

@@ -4,26 +4,27 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#define BOOST_USER_CONFIG <libs/stacktrace/example/user_config.hpp>
+#include "user_config.hpp"
 
-#include <boost/array.hpp>
-#include <exception>    // std::set_terminate, std::abort
-#include <boost/stacktrace.hpp>
+#include <stacktrace.hpp>
+
 #include <iostream>     // std::cerr
-BOOST_NOINLINE void foo(int i);
-BOOST_NOINLINE void bar(int i);
+#include <array>
+#include <exception>    // std::set_terminate, std::abort
+STACKTRACE_NOINLINE void foo(int i);
+STACKTRACE_NOINLINE void bar(int i);
  
-BOOST_NOINLINE void bar(int i) {
-    boost::array<int, 5> a = {{-1, -231, -123, -23, -32}};
+STACKTRACE_NOINLINE void bar(int i) {
+    std::array<int, 5> a = {{-1, -231, -123, -23, -32}};
     if (i >= 0) {
         foo(a[i]);
     } else {
-        std::cerr << "Terminate called:\n" << stacktrace::stacktrace() << '\n';
+        std::cerr << "Terminate called:\n" << stacktrace_::stacktrace() << '\n';
         std::exit(0);
     }
 }
 
-BOOST_NOINLINE void foo(int i) {
+STACKTRACE_NOINLINE void foo(int i) {
     bar(--i);
 }
 
@@ -32,7 +33,3 @@ int main() {
     
     return 2;
 }
-
-
-
-

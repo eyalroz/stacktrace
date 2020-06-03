@@ -7,23 +7,18 @@
 #ifndef STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP_
 #define STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
-
 #include <stacktrace/frame.hpp>
 
-namespace stacktrace { namespace detail {
+namespace stacktrace_ { namespace detail {
 
 struct to_string_using_nothing {
     std::string res;
 
     void prepare_function_name(const void* addr) {
-        res = stacktrace::frame(addr).name();
+        res = stacktrace_::frame(addr).name();
     }
 
-    bool prepare_source_location(const void* /*addr*/) const BOOST_NOEXCEPT {
+    bool prepare_source_location(const void* /*addr*/) const noexcept {
         return false;
     }
 };
@@ -45,6 +40,6 @@ std::size_t frame::source_line() const {
     return 0;
 }
 
-}} // namespace boost::stacktrace
+} //  namespace stacktrace_
 
 #endif // STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP_
