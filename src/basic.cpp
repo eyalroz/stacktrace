@@ -11,5 +11,5 @@
 #   define _GNU_SOURCE
 #endif
 
-#include <boost/stacktrace/detail/frame_unwind.ipp>
-#include <boost/stacktrace/safe_dump_to.hpp>
+#include <stacktrace/detail/frame_unwind.ipp>
+#include <stacktrace/safe_dump_to.hpp>

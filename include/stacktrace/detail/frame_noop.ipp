@@ -12,7 +12,7 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/frame.hpp>
+#include <stacktrace/frame.hpp>
 
 namespace boost { namespace stacktrace { namespace detail {
 

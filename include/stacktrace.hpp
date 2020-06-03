@@ -12,8 +12,8 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/frame.hpp>
-#include <boost/stacktrace/stacktrace.hpp>
-#include <boost/stacktrace/safe_dump_to.hpp>
+#include <stacktrace/frame.hpp>
+#include <stacktrace/stacktrace.hpp>
+#include <stacktrace/safe_dump_to.hpp>
 
 #endif // BOOST_STACKTRACE_HPP

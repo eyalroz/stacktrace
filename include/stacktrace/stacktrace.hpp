@@ -24,9 +24,9 @@
 #   include <type_traits>
 #endif
 
-#include <boost/stacktrace/stacktrace_fwd.hpp>
-#include <boost/stacktrace/safe_dump_to.hpp>
-#include <boost/stacktrace/detail/frame_decl.hpp>
+#include <stacktrace/stacktrace_fwd.hpp>
+#include <stacktrace/safe_dump_to.hpp>
+#include <stacktrace/detail/frame_decl.hpp>
 
 #ifdef BOOST_INTEL
 #   pragma warning(push)

@@ -12,7 +12,7 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/safe_dump_to.hpp>
+#include <stacktrace/safe_dump_to.hpp>
 
 namespace boost { namespace stacktrace { namespace detail {
 

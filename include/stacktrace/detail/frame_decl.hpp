@@ -17,17 +17,17 @@
 
 #include <boost/core/explicit_operator_bool.hpp>
 
-#include <boost/stacktrace/safe_dump_to.hpp> // boost::stacktrace::detail::native_frame_ptr_t
-#include <boost/stacktrace/detail/void_ptr_cast.hpp>
+#include <stacktrace/safe_dump_to.hpp> // boost::stacktrace::detail::native_frame_ptr_t
+#include <stacktrace/detail/void_ptr_cast.hpp>
 
-#include <boost/stacktrace/detail/push_options.h>
+#include <stacktrace/detail/push_options.h>
 
-/// @file boost/stacktrace/detail/frame_decl.hpp
-/// Use <boost/stacktrace/frame.hpp> header instead of this one!
+/// @file stacktrace/detail/frame_decl.hpp
+/// Use <stacktrace/frame.hpp> header instead of this one!
 
 namespace boost { namespace stacktrace {
 
-/// @class boost::stacktrace::frame boost/stacktrace/detail/frame_decl.hpp <boost/stacktrace/frame.hpp>
+/// @class boost::stacktrace::frame stacktrace/detail/frame_decl.hpp <stacktrace/frame.hpp>
 /// @brief Class that stores frame/function address and can get information about it at runtime.
 class frame {
 public:
@@ -154,6 +154,6 @@ namespace detail {
 }} // namespace boost::stacktrace
 
 
-#include <boost/stacktrace/detail/pop_options.h>
+#include <stacktrace/detail/pop_options.h>
 
 #endif // BOOST_STACKTRACE_DETAIL_FRAME_DECL_HPP

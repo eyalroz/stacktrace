@@ -12,21 +12,21 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/frame.hpp>
+#include <stacktrace/frame.hpp>
 
-#include <boost/stacktrace/detail/to_hex_array.hpp>
-#include <boost/stacktrace/detail/location_from_symbol.hpp>
-#include <boost/stacktrace/detail/to_dec_array.hpp>
+#include <stacktrace/detail/to_hex_array.hpp>
+#include <stacktrace/detail/location_from_symbol.hpp>
+#include <stacktrace/detail/to_dec_array.hpp>
 #include <boost/core/demangle.hpp>
 
 #include <cstdio>
 
 #ifdef BOOST_STACKTRACE_USE_BACKTRACE
-#   include <boost/stacktrace/detail/libbacktrace_impls.hpp>
+#   include <stacktrace/detail/libbacktrace_impls.hpp>
 #elif defined(BOOST_STACKTRACE_USE_ADDR2LINE)
-#   include <boost/stacktrace/detail/addr2line_impls.hpp>
+#   include <stacktrace/detail/addr2line_impls.hpp>
 #else
-#   include <boost/stacktrace/detail/unwind_base_impls.hpp>
+#   include <stacktrace/detail/unwind_base_impls.hpp>
 #endif
 
 namespace boost { namespace stacktrace { namespace detail {

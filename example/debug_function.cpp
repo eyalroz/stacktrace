@@ -6,7 +6,7 @@
 
 //[getting_started_debug_function
 #include <signal.h>     // ::signal
-#include <boost/stacktrace/frame.hpp>
+#include <stacktrace/frame.hpp>
 #include <iostream>     // std::cerr
 #include <cstdlib>      // std::exit
 

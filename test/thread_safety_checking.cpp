@@ -5,7 +5,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 
 #include "test_impl.hpp"
-#include <boost/stacktrace/stacktrace_fwd.hpp>
+#include <stacktrace/stacktrace_fwd.hpp>
 
 #include <sstream>
 

@@ -12,7 +12,7 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/safe_dump_to.hpp>
+#include <stacktrace/safe_dump_to.hpp>
 
 #include <boost/winapi/stack_backtrace.hpp>
 

@@ -12,9 +12,9 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/detail/to_hex_array.hpp>
-#include <boost/stacktrace/detail/to_dec_array.hpp>
-#include <boost/stacktrace/detail/location_from_symbol.hpp>
+#include <stacktrace/detail/to_hex_array.hpp>
+#include <stacktrace/detail/to_dec_array.hpp>
+#include <stacktrace/detail/location_from_symbol.hpp>
 #include <boost/core/demangle.hpp>
 
 #ifdef BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE

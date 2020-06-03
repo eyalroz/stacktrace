@@ -12,7 +12,7 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/safe_dump_to.hpp>
+#include <stacktrace/safe_dump_to.hpp>
 
 // On iOS 32-bit ARM architecture _Unwind_Backtrace function doesn't exist, symbol is undefined.
 // Forcing libc backtrace() function usage.

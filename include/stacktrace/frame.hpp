@@ -17,10 +17,10 @@
 
 #include <boost/core/explicit_operator_bool.hpp>
 
-#include <boost/stacktrace/safe_dump_to.hpp> // boost::stacktrace::detail::native_frame_ptr_t
+#include <stacktrace/safe_dump_to.hpp> // boost::stacktrace::detail::native_frame_ptr_t
 
-#include <boost/stacktrace/detail/frame_decl.hpp>
-#include <boost/stacktrace/detail/push_options.h>
+#include <stacktrace/detail/frame_decl.hpp>
+#include <stacktrace/detail/push_options.h>
 
 namespace boost { namespace stacktrace {
 
@@ -50,15 +50,15 @@ std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT
 
 /// @cond
 
-#include <boost/stacktrace/detail/pop_options.h>
+#include <stacktrace/detail/pop_options.h>
 
 #ifndef BOOST_STACKTRACE_LINK
 #   if defined(BOOST_STACKTRACE_USE_NOOP)
-#       include <boost/stacktrace/detail/frame_noop.ipp>
+#       include <stacktrace/detail/frame_noop.ipp>
 #   elif defined(BOOST_MSVC) || defined(BOOST_STACKTRACE_USE_WINDBG) || defined(BOOST_STACKTRACE_USE_WINDBG_CACHED)
-#       include <boost/stacktrace/detail/frame_msvc.ipp>
+#       include <stacktrace/detail/frame_msvc.ipp>
 #   else
-#       include <boost/stacktrace/detail/frame_unwind.ipp>
+#       include <stacktrace/detail/frame_unwind.ipp>
 #   endif
 #endif
 /// @endcond

@@ -9,7 +9,7 @@
 #ifndef USER_CONFIG_HPP
 #define USER_CONFIG_HPP
 
-#include <boost/stacktrace/stacktrace_fwd.hpp>
+#include <stacktrace/stacktrace_fwd.hpp>
 
 #include <iosfwd>
 

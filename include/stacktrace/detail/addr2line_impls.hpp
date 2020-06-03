@@ -12,9 +12,9 @@
 #   pragma once
 #endif
 
-#include <boost/stacktrace/detail/to_hex_array.hpp>
-#include <boost/stacktrace/detail/to_dec_array.hpp>
-#include <boost/stacktrace/detail/try_dec_convert.hpp>
+#include <stacktrace/detail/to_hex_array.hpp>
+#include <stacktrace/detail/to_dec_array.hpp>
+#include <stacktrace/detail/try_dec_convert.hpp>
 #include <boost/core/demangle.hpp>
 #include <cstdio>
 
