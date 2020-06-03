@@ -4,9 +4,9 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#define BOOST_STACKTRACE_INTERNAL_BUILD_LIBS
-#define BOOST_STACKTRACE_USE_ADDR2LINE
-#define BOOST_STACKTRACE_LINK
+#define STACKTRACE_INTERNAL_BUILD_LIBS
+#define STACKTRACE_USE_ADDR2LINE
+#define STACKTRACE_LINK
 
 #ifndef _GNU_SOURCE
 #   define _GNU_SOURCE

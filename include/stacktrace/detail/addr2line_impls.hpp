@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP
-#define BOOST_STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP
+#ifndef STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP_
+#define STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -26,7 +26,7 @@
 namespace boost { namespace stacktrace { namespace detail {
 
 
-#if defined(BOOST_STACKTRACE_ADDR2LINE_LOCATION) && !defined(BOOST_NO_CXX11_CONSTEXPR)
+#if defined(STACKTRACE_ADDR2LINE_LOCATION) && !defined(BOOST_NO_CXX11_CONSTEXPR)
 
 constexpr bool is_abs_path(const char* path) BOOST_NOEXCEPT {
     return *path != '\0' && (
@@ -46,12 +46,12 @@ public:
         , pid(0)
     {
         int pdes[2];
-        #ifdef BOOST_STACKTRACE_ADDR2LINE_LOCATION
-        char prog_name[] = BOOST_STRINGIZE( BOOST_STACKTRACE_ADDR2LINE_LOCATION );
+        #ifdef STACKTRACE_ADDR2LINE_LOCATION
+        char prog_name[] = BOOST_STRINGIZE( STACKTRACE_ADDR2LINE_LOCATION );
         #if !defined(BOOST_NO_CXX11_CONSTEXPR) && !defined(BOOST_NO_CXX11_STATIC_ASSERT)
         static_assert(
-            boost::stacktrace::detail::is_abs_path( BOOST_STRINGIZE( BOOST_STACKTRACE_ADDR2LINE_LOCATION ) ),
-            "BOOST_STACKTRACE_ADDR2LINE_LOCATION must be an absolute path"
+            boost::stacktrace::detail::is_abs_path( BOOST_STRINGIZE( STACKTRACE_ADDR2LINE_LOCATION ) ),
+            "STACKTRACE_ADDR2LINE_LOCATION must be an absolute path"
         );
         #endif
 
@@ -223,4 +223,4 @@ std::size_t frame::source_line() const {
 
 }} // namespace boost::stacktrace
 
-#endif // BOOST_STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP
+#endif // STACKTRACE_DETAIL_ADDR2LINE_IMPLS_HPP_

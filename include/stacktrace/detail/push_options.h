@@ -7,25 +7,25 @@
 // No include guards! Intentionally.
 
 // Link or header only
-#if !defined(BOOST_STACKTRACE_LINK) && defined(BOOST_STACKTRACE_DYN_LINK)
-#   define BOOST_STACKTRACE_LINK
+#if !defined(STACKTRACE_LINK) && defined(STACKTRACE_DYN_LINK)
+#   define STACKTRACE_LINK
 #endif
 
-#if defined(BOOST_STACKTRACE_LINK) && !defined(BOOST_STACKTRACE_DYN_LINK) && defined(BOOST_ALL_DYN_LINK)
-#   define BOOST_STACKTRACE_DYN_LINK
+#if defined(STACKTRACE_LINK) && !defined(STACKTRACE_DYN_LINK) && defined(BOOST_ALL_DYN_LINK)
+#   define STACKTRACE_DYN_LINK
 #endif
 
-#ifdef BOOST_STACKTRACE_LINK
-#   if defined(BOOST_STACKTRACE_DYN_LINK)
-#       ifdef BOOST_STACKTRACE_INTERNAL_BUILD_LIBS
-#           define BOOST_STACKTRACE_FUNCTION BOOST_SYMBOL_EXPORT
+#ifdef STACKTRACE_LINK
+#   if defined(STACKTRACE_DYN_LINK)
+#       ifdef STACKTRACE_INTERNAL_BUILD_LIBS
+#           define STACKTRACE_FUNCTION BOOST_SYMBOL_EXPORT
 #       else
-#           define BOOST_STACKTRACE_FUNCTION BOOST_SYMBOL_IMPORT
+#           define STACKTRACE_FUNCTION BOOST_SYMBOL_IMPORT
 #       endif
 #   else
-#       define BOOST_STACKTRACE_FUNCTION
+#       define STACKTRACE_FUNCTION
 #   endif
-#elif !defined(BOOST_STACKTRACE_DOXYGEN_INVOKED)
-#   define BOOST_STACKTRACE_FUNCTION inline
+#elif !defined(STACKTRACE_DOXYGEN_INVOKED)
+#   define STACKTRACE_FUNCTION inline
 #endif
 

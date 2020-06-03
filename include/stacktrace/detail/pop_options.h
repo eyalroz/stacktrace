@@ -6,7 +6,7 @@
 
 // No include guards! Intentionally.
 
-#ifdef BOOST_STACKTRACE_FUNCTION
-#   undef BOOST_STACKTRACE_FUNCTION
+#ifdef STACKTRACE_FUNCTION
+#   undef STACKTRACE_FUNCTION
 #endif
 

@@ -19,14 +19,14 @@
 
 using namespace boost::stacktrace;
 
-#ifdef BOOST_STACKTRACE_DYN_LINK
-# ifdef BOOST_STACKTRACE_TEST_IMPL_LIB
+#ifdef STACKTRACE_DYN_LINK
+# ifdef STACKTRACE_TEST_IMPL_LIB
 #   define BOOST_ST_API BOOST_SYMBOL_EXPORT
 # else
 #   define BOOST_ST_API BOOST_SYMBOL_IMPORT
 # endif
 #else
-# ifdef BOOST_STACKTRACE_TEST_EXPORTS_TABLE_USAGE
+# ifdef STACKTRACE_TEST_EXPORTS_TABLE_USAGE
 #   define BOOST_ST_API BOOST_SYMBOL_VISIBLE
 # else
 #   define BOOST_ST_API
@@ -40,7 +40,7 @@ BOOST_ST_API boost::stacktrace::stacktrace return_from_nested_namespaces();
 BOOST_ST_API boost::stacktrace::stacktrace make_some_stacktrace1();
 BOOST_ST_API boost::stacktrace::stacktrace make_some_stacktrace2();
 
-#ifdef BOOST_STACKTRACE_TEST_EXPORTS_TABLE_USAGE
+#ifdef STACKTRACE_TEST_EXPORTS_TABLE_USAGE
   BOOST_SYMBOL_VISIBLE
 #endif
 inline st_pair function_from_main_translation_unit(int i) {

@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP
-#define BOOST_STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP
+#ifndef STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP_
+#define STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -47,4 +47,4 @@ std::size_t frame::source_line() const {
 
 }} // namespace boost::stacktrace
 
-#endif // BOOST_STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP
+#endif // STACKTRACE_DETAIL_UNWIND_BASE_IMPLS_HPP_

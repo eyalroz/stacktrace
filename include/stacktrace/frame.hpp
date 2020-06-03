@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_FRAME_HPP
-#define BOOST_STACKTRACE_FRAME_HPP
+#ifndef STACKTRACE_FRAME_HPP_
+#define STACKTRACE_FRAME_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -38,7 +38,7 @@ inline std::size_t hash_value(const frame& f) BOOST_NOEXCEPT {
 }
 
 /// Outputs stacktrace::frame in a human readable format to string; unsafe to use in async handlers.
-BOOST_STACKTRACE_FUNCTION std::string to_string(const frame& f);
+STACKTRACE_FUNCTION std::string to_string(const frame& f);
 
 /// Outputs stacktrace::frame in a human readable format to output stream; unsafe to use in async handlers.
 template <class CharT, class TraitsT>
@@ -52,10 +52,10 @@ std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT
 
 #include <stacktrace/detail/pop_options.h>
 
-#ifndef BOOST_STACKTRACE_LINK
-#   if defined(BOOST_STACKTRACE_USE_NOOP)
+#ifndef STACKTRACE_LINK
+#   if defined(STACKTRACE_USE_NOOP)
 #       include <stacktrace/detail/frame_noop.ipp>
-#   elif defined(BOOST_MSVC) || defined(BOOST_STACKTRACE_USE_WINDBG) || defined(BOOST_STACKTRACE_USE_WINDBG_CACHED)
+#   elif defined(BOOST_MSVC) || defined(STACKTRACE_USE_WINDBG) || defined(STACKTRACE_USE_WINDBG_CACHED)
 #       include <stacktrace/detail/frame_msvc.ipp>
 #   else
 #       include <stacktrace/detail/frame_unwind.ipp>
@@ -64,4 +64,4 @@ std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT
 /// @endcond
 
 
-#endif // BOOST_STACKTRACE_FRAME_HPP
+#endif // STACKTRACE_FRAME_HPP_

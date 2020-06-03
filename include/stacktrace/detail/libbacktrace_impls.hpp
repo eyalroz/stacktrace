@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_LIBBACKTRACE_IMPLS_HPP
-#define BOOST_STACKTRACE_DETAIL_LIBBACKTRACE_IMPLS_HPP
+#ifndef STACKTRACE_DETAIL_LIBBACKTRACE_IMPLS_HPP_
+#define STACKTRACE_DETAIL_LIBBACKTRACE_IMPLS_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -17,8 +17,8 @@
 #include <stacktrace/detail/location_from_symbol.hpp>
 #include <boost/core/demangle.hpp>
 
-#ifdef BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE
-#   include BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE
+#ifdef STACKTRACE_BACKTRACE_INCLUDE_FILE
+#   include STACKTRACE_BACKTRACE_INCLUDE_FILE
 #else
 #   include <backtrace.h>
 #endif
@@ -241,4 +241,4 @@ std::size_t frame::source_line() const {
 
 }} // namespace boost::stacktrace
 
-#endif // BOOST_STACKTRACE_DETAIL_LIBBACKTRACE_IMPLS_HPP
+#endif // STACKTRACE_DETAIL_LIBBACKTRACE_IMPLS_HPP_

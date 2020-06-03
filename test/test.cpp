@@ -22,19 +22,19 @@ using boost::stacktrace::stacktrace;
 using boost::stacktrace::frame;
 
 
-#if (defined(BOOST_GCC) && defined(BOOST_WINDOWS) && !defined(BOOST_STACKTRACE_USE_BACKTRACE) && !defined(BOOST_STACKTRACE_USE_ADDR2LINE)) \
-    || defined(BOOST_STACKTRACE_TEST_NO_DEBUG_AT_ALL)
+#if (defined(BOOST_GCC) && defined(BOOST_WINDOWS) && !defined(STACKTRACE_USE_BACKTRACE) && !defined(STACKTRACE_USE_ADDR2LINE)) \
+    || defined(STACKTRACE_TEST_NO_DEBUG_AT_ALL)
 
-#   define BOOST_STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES 0
+#   define STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES 0
 #else
-#   define BOOST_STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES 1
+#   define STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES 1
 #endif
 
 void test_deeply_nested_namespaces() {
     std::stringstream ss;
     ss << return_from_nested_namespaces();
     std::cout << ss.str() << '\n';
-#if BOOST_STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES
+#if STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES
     BOOST_TEST(ss.str().find("main") != std::string::npos);
 
     BOOST_TEST(ss.str().find("get_backtrace_from_nested_namespaces") != std::string::npos
@@ -90,7 +90,7 @@ void test_nested(bool print = true) {
     BOOST_TEST(ss1.str().find(" in ") != std::string::npos);
     BOOST_TEST(ss2.str().find(" in ") != std::string::npos);
 
-#if BOOST_STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES
+#if STACKTRACE_TEST_SHOULD_OUTPUT_READABLE_NAMES
     BOOST_TEST(ss1.str().find("main") != std::string::npos);
     BOOST_TEST(ss2.str().find("main") != std::string::npos);
 
@@ -109,7 +109,7 @@ void test_comparisons_base(Bt nst, Bt st) {
     cst = cst;
     BOOST_TEST(nst);
     BOOST_TEST(st);
-#if !defined(BOOST_MSVC) && !defined(BOOST_STACKTRACE_USE_WINDBG)
+#if !defined(BOOST_MSVC) && !defined(STACKTRACE_USE_WINDBG)
     // This is very dependent on compiler and link flags. No sane way to make it work, because
     // BOOST_NOINLINE could be ignored by MSVC compiler if link-time optimization is enabled.
     BOOST_TEST(nst[0] != st[0]);
@@ -207,7 +207,7 @@ void test_frame() {
         if (i > 1 && i < min_size - 3) {       // Begin ...and end of the trace may match, skipping
             BOOST_TEST(st[i] != fv);
             
-#if !(defined(BOOST_STACKTRACE_TEST_NO_DEBUG_AT_ALL) && defined(BOOST_MSVC))
+#if !(defined(STACKTRACE_TEST_NO_DEBUG_AT_ALL) && defined(BOOST_MSVC))
             // MSVC can not get function name withhout debug symbols even if it is exported
             BOOST_TEST(st[i].name() != fv.name());
             BOOST_TEST(st[i] != fv);

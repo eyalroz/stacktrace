@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_STACKTRACE_HPP
-#define BOOST_STACKTRACE_STACKTRACE_HPP
+#ifndef STACKTRACE_STACKTRACE_HPP_
+#define STACKTRACE_STACKTRACE_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -119,7 +119,7 @@ public:
 
     /// @brief Stores the current function call sequence inside *this without any decoding or any other heavy platform specific operations.
     ///
-    /// @b Complexity: O(N) where N is call sequence length, O(1) if BOOST_STACKTRACE_USE_NOOP is defined.
+    /// @b Complexity: O(N) where N is call sequence length, O(1) if STACKTRACE_USE_NOOP is defined.
     ///
     /// @b Async-Handler-Safety: Safe if Allocator construction, copying, Allocator::allocate and Allocator::deallocate are async signal safe.
     BOOST_FORCEINLINE basic_stacktrace() BOOST_NOEXCEPT
@@ -130,7 +130,7 @@ public:
 
     /// @brief Stores the current function call sequence inside *this without any decoding or any other heavy platform specific operations.
     ///
-    /// @b Complexity: O(N) where N is call sequence length, O(1) if BOOST_STACKTRACE_USE_NOOP is defined.
+    /// @b Complexity: O(N) where N is call sequence length, O(1) if STACKTRACE_USE_NOOP is defined.
     ///
     /// @b Async-Handler-Safety: Safe if Allocator construction, copying, Allocator::allocate and Allocator::deallocate are async signal safe.
     ///
@@ -143,7 +143,7 @@ public:
 
     /// @brief Stores [skip, skip + max_depth) of the current function call sequence inside *this without any decoding or any other heavy platform specific operations.
     ///
-    /// @b Complexity: O(N) where N is call sequence length, O(1) if BOOST_STACKTRACE_USE_NOOP is defined.
+    /// @b Complexity: O(N) where N is call sequence length, O(1) if STACKTRACE_USE_NOOP is defined.
     ///
     /// @b Async-Handler-Safety: Safe if Allocator construction, copying, Allocator::allocate and Allocator::deallocate are async signal safe.
     ///
@@ -176,7 +176,7 @@ public:
         return *this;
     }
 
-#ifdef BOOST_STACKTRACE_DOXYGEN_INVOKED
+#ifdef STACKTRACE_DOXYGEN_INVOKED
     /// @b Complexity: O(1)
     ///
     /// @b Async-Handler-Safety: Safe if Allocator::deallocate is async signal safe.
@@ -419,4 +419,4 @@ typedef basic_stacktrace<> stacktrace;
 #   pragma warning(pop)
 #endif
 
-#endif // BOOST_STACKTRACE_STACKTRACE_HPP
+#endif // STACKTRACE_STACKTRACE_HPP_

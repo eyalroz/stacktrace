@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_FRAME_DECL_HPP
-#define BOOST_STACKTRACE_DETAIL_FRAME_DECL_HPP
+#ifndef STACKTRACE_DETAIL_FRAME_DECL_HPP_
+#define STACKTRACE_DETAIL_FRAME_DECL_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -51,7 +51,7 @@ public:
         : addr_(0)
     {}
 
-#ifdef BOOST_STACKTRACE_DOXYGEN_INVOKED
+#ifdef STACKTRACE_DOXYGEN_INVOKED
     /// @brief Copy constructs frame.
     ///
     /// @b Complexity: O(1).
@@ -96,7 +96,7 @@ public:
     ///
     /// @b Async-Handler-Safety: Unsafe.
     /// @throws std::bad_alloc if not enough memory to construct resulting string.
-    BOOST_STACKTRACE_FUNCTION std::string name() const;
+    STACKTRACE_FUNCTION std::string name() const;
 
     /// @returns Address of the frame function.
     ///
@@ -115,7 +115,7 @@ public:
     /// @b Complexity: unknown (lots of platform specific work).
     ///
     /// @b Async-Handler-Safety: Unsafe.
-    BOOST_STACKTRACE_FUNCTION std::string source_file() const;
+    STACKTRACE_FUNCTION std::string source_file() const;
 
     /// @returns Code line in the source file, were the function of the frame is defined.
     /// @throws std::bad_alloc if not enough memory to construct string for internal needs.
@@ -123,7 +123,7 @@ public:
     /// @b Complexity: unknown (lots of platform specific work).
     ///
     /// @b Async-Handler-Safety: Unsafe.
-    BOOST_STACKTRACE_FUNCTION std::size_t source_line() const;
+    STACKTRACE_FUNCTION std::size_t source_line() const;
 
     /// @brief Checks that frame is not references NULL address.
     /// @returns `true` if `this->address() != 0`
@@ -148,7 +148,7 @@ public:
 
 
 namespace detail {
-    BOOST_STACKTRACE_FUNCTION std::string to_string(const frame* frames, std::size_t size);
+    STACKTRACE_FUNCTION std::string to_string(const frame* frames, std::size_t size);
 } // namespace detail
 
 }} // namespace boost::stacktrace
@@ -156,4 +156,4 @@ namespace detail {
 
 #include <stacktrace/detail/pop_options.h>
 
-#endif // BOOST_STACKTRACE_DETAIL_FRAME_DECL_HPP
+#endif // STACKTRACE_DETAIL_FRAME_DECL_HPP_

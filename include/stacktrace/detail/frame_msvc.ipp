@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_FRAME_MSVC_IPP
-#define BOOST_STACKTRACE_DETAIL_FRAME_MSVC_IPP
+#ifndef STACKTRACE_DETAIL_FRAME_MSVC_IPP
+#define STACKTRACE_DETAIL_FRAME_MSVC_IPP
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -158,7 +158,7 @@ class debugging_symbols: boost::noncopyable {
         iclient->QueryInterface(__uuidof(IDebugSymbols), idebug.to_void_ptr_ptr());
     }
 
-#ifndef BOOST_STACKTRACE_USE_WINDBG_CACHED
+#ifndef STACKTRACE_USE_WINDBG_CACHED
 
     boost::stacktrace::detail::com_global_initer com_;
     com_holder< ::IDebugSymbols> idebug_;
@@ -173,7 +173,7 @@ public:
 #else
 
 #ifdef BOOST_NO_CXX11_THREAD_LOCAL
-#   error Your compiler does not support C++11 thread_local storage. It`s impossible to build with BOOST_STACKTRACE_USE_WINDBG_CACHED.
+#   error Your compiler does not support C++11 thread_local storage. It`s impossible to build with STACKTRACE_USE_WINDBG_CACHED.
 #endif
 
     static com_holder< ::IDebugSymbols>& get_thread_local_debug_inst() BOOST_NOEXCEPT {
@@ -195,7 +195,7 @@ public:
         : idebug_( get_thread_local_debug_inst() )
     {}
 
-#endif // #ifndef BOOST_STACKTRACE_USE_WINDBG_CACHED
+#endif // #ifndef STACKTRACE_USE_WINDBG_CACHED
 
     bool is_inited() const BOOST_NOEXCEPT {
         return idebug_.is_inited();
@@ -400,4 +400,4 @@ std::string to_string(const frame& f) {
 
 }} // namespace boost::stacktrace
 
-#endif // BOOST_STACKTRACE_DETAIL_FRAME_MSVC_IPP
+#endif // STACKTRACE_DETAIL_FRAME_MSVC_IPP

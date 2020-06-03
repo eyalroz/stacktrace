@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#define BOOST_STACKTRACE_INTERNAL_BUILD_LIBS
-#define BOOST_STACKTRACE_LINK
-#define BOOST_STACKTRACE_USE_NOOP
+#define STACKTRACE_INTERNAL_BUILD_LIBS
+#define STACKTRACE_LINK
+#define STACKTRACE_USE_NOOP
 #include <stacktrace/detail/frame_noop.ipp>
 #include <stacktrace/detail/safe_dump_noop.ipp>

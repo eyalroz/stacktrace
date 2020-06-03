@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_COLLECT_MSVC_IPP
-#define BOOST_STACKTRACE_DETAIL_COLLECT_MSVC_IPP
+#ifndef STACKTRACE_DETAIL_COLLECT_MSVC_IPP
+#define STACKTRACE_DETAIL_COLLECT_MSVC_IPP
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -30,4 +30,4 @@ std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::siz
 
 }}} // namespace boost::stacktrace
 
-#endif // BOOST_STACKTRACE_DETAIL_COLLECT_MSVC_IPP
+#endif // STACKTRACE_DETAIL_COLLECT_MSVC_IPP

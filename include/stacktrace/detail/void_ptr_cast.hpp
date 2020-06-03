@@ -5,8 +5,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_VOID_PTR_CAST_HPP
-#define BOOST_STACKTRACE_DETAIL_VOID_PTR_CAST_HPP
+#ifndef STACKTRACE_DETAIL_VOID_PTR_CAST_HPP_
+#define STACKTRACE_DETAIL_VOID_PTR_CAST_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -42,5 +42,5 @@ To void_ptr_cast(From* v) BOOST_NOEXCEPT {
 
 }}} // boost::stacktrace::detail
 
-#endif // BOOST_STACKTRACE_DETAIL_VOID_PTR_CAST_HPP
+#endif // STACKTRACE_DETAIL_VOID_PTR_CAST_HPP_
 

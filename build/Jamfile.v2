@@ -58,10 +58,10 @@ lib boost_stacktrace_noop
     ../src/noop.cpp
   : # requirements
     <warnings>all
-    <link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    <link>shared:<define>STACKTRACE_DYN_LINK=1
   : # default build
   : # usage-requirements
-    #<link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    #<link>shared:<define>STACKTRACE_DYN_LINK=1
   ;
 
 libraries += boost_stacktrace_noop ;
@@ -73,11 +73,11 @@ lib boost_stacktrace_backtrace
     <warnings>all
     <target-os>linux:<library>dl
     <library>backtrace
-    <link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    <link>shared:<define>STACKTRACE_DYN_LINK=1
     [ check-target-builds ../build//libbacktrace : : <build>no ]
   : # default build
   : # usage-requirements
-    #<link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    #<link>shared:<define>STACKTRACE_DYN_LINK=1
   ;
 
 libraries += boost_stacktrace_backtrace ;
@@ -88,11 +88,11 @@ lib boost_stacktrace_addr2line
   : # requirements
     <warnings>all
     <target-os>linux:<library>dl
-    <link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    <link>shared:<define>STACKTRACE_DYN_LINK=1
     [ check-target-builds ../build//addr2line : : <build>no ]
   : # default build
   : # usage-requirements
-    #<link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    #<link>shared:<define>STACKTRACE_DYN_LINK=1
   ;
 
 libraries += boost_stacktrace_addr2line ;
@@ -103,11 +103,11 @@ lib boost_stacktrace_basic
   : # requirements
     <warnings>all
     <target-os>linux:<library>dl
-    <link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    <link>shared:<define>STACKTRACE_DYN_LINK=1
     [ check-target-builds ../build//WinDbg : <build>no ]
   : # default build
   : # usage-requirements
-    #<link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    #<link>shared:<define>STACKTRACE_DYN_LINK=1
   ;
 
 libraries += boost_stacktrace_basic ;
@@ -118,11 +118,11 @@ lib boost_stacktrace_windbg
   : # requirements
     <warnings>all
     <library>Dbgeng <library>ole32
-    <link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    <link>shared:<define>STACKTRACE_DYN_LINK=1
     [ check-target-builds ../build//WinDbg : : <build>no ]
   : # default build
   : # usage-requirements
-    #<link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    #<link>shared:<define>STACKTRACE_DYN_LINK=1
   ;
 
 libraries += boost_stacktrace_windbg ;
@@ -133,11 +133,11 @@ lib boost_stacktrace_windbg_cached
   : # requirements
     <warnings>all
     <library>Dbgeng <library>ole32
-    <link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    <link>shared:<define>STACKTRACE_DYN_LINK=1
     [ check-target-builds ../build//WinDbgCached : : <build>no ]
   : # default build
   : # usage-requirements
-    #<link>shared:<define>BOOST_STACKTRACE_DYN_LINK=1
+    #<link>shared:<define>STACKTRACE_DYN_LINK=1
   ;
 
 libraries += boost_stacktrace_windbg_cached ;

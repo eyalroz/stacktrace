@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP
-#define BOOST_STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP
+#ifndef STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP_
+#define STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -43,4 +43,4 @@ inline boost::array<char, 40> to_dec_array(std::size_t value) BOOST_NOEXCEPT {
 
 }}} // namespace boost::stacktrace::detail
 
-#endif // BOOST_STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP
+#endif // STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP_

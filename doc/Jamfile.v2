@@ -27,9 +27,9 @@ doxygen autodoc
                                    \"BOOST_CONSTEXPR_EXPLICIT_OPERATOR_BOOL()=explicit constexpr operator bool() const noexcept;\" \\
                                    \"BOOST_STATIC_CONSTEXPR=static constexpr\" \\
                                    \"BOOST_FORCEINLINE=inline\" \\
-                                   \"BOOST_STACKTRACE_FUNCTION=inline\" \\
+                                   \"STACKTRACE_FUNCTION=inline\" \\
                                    \"BOOST_CONSTEXPR=constexpr\" \\
-                                   \"BOOST_STACKTRACE_DOXYGEN_INVOKED\""
+                                   \"STACKTRACE_DOXYGEN_INVOKED\""
         <xsl:param>"boost.doxygen.reftitle=Reference"
         <xsl:param>"boost.doxygen.refid=stacktrace.reference"
    ;

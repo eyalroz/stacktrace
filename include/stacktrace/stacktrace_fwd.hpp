@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_STACKTRACE_FWD_HPP
-#define BOOST_STACKTRACE_STACKTRACE_FWD_HPP
+#ifndef STACKTRACE_STACKTRACE_FWD_HPP_
+#define STACKTRACE_STACKTRACE_FWD_HPP_
 
 #include <cstddef>
 #include <memory>
@@ -25,4 +25,4 @@ typedef basic_stacktrace<> stacktrace;
 /// @endcond
 
 
-#endif // BOOST_STACKTRACE_STACKTRACE_FWD_HPP
+#endif // STACKTRACE_STACKTRACE_FWD_HPP_

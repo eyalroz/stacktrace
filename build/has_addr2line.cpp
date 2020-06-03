@@ -14,8 +14,8 @@
 
 int main() {
 
-#ifdef BOOST_STACKTRACE_ADDR2LINE_LOCATION
-    std::string s = BOOST_STRINGIZE( BOOST_STACKTRACE_ADDR2LINE_LOCATION );
+#ifdef STACKTRACE_ADDR2LINE_LOCATION
+    std::string s = BOOST_STRINGIZE( STACKTRACE_ADDR2LINE_LOCATION );
     s += " -h";
 #else
     std::string s = "/usr/bin/addr2line -h";

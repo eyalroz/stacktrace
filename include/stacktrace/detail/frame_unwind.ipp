@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_FRAME_UNWIND_IPP
-#define BOOST_STACKTRACE_DETAIL_FRAME_UNWIND_IPP
+#ifndef STACKTRACE_DETAIL_FRAME_UNWIND_IPP
+#define STACKTRACE_DETAIL_FRAME_UNWIND_IPP
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -21,9 +21,9 @@
 
 #include <cstdio>
 
-#ifdef BOOST_STACKTRACE_USE_BACKTRACE
+#ifdef STACKTRACE_USE_BACKTRACE
 #   include <stacktrace/detail/libbacktrace_impls.hpp>
-#elif defined(BOOST_STACKTRACE_USE_ADDR2LINE)
+#elif defined(STACKTRACE_USE_ADDR2LINE)
 #   include <stacktrace/detail/addr2line_impls.hpp>
 #else
 #   include <stacktrace/detail/unwind_base_impls.hpp>
@@ -111,4 +111,4 @@ std::string to_string(const frame& f) {
 
 }} // namespace boost::stacktrace
 
-#endif // BOOST_STACKTRACE_DETAIL_FRAME_UNWIND_IPP
+#endif // STACKTRACE_DETAIL_FRAME_UNWIND_IPP

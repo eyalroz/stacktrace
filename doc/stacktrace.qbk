@@ -181,7 +181,7 @@ Code from above will output:
 
 At some point arises a requirement to easily enable/disable stacktraces for a whole project. That could be easily achieved.
 
-Just define *BOOST_STACKTRACE_LINK* for a whole project. Now you can enable/disable stacktraces by just linking with different libraries:
+Just define *STACKTRACE_LINK* for a whole project. Now you can enable/disable stacktraces by just linking with different libraries:
 
 * link with `boost_stacktrace_noop` to disable backtracing
 * link with other `boost_stacktrace_*` libraries
@@ -287,29 +287,29 @@ Previous run crashed and left trace in shared memory:
 By default Boost.Stacktrace is a header-only library, but you may change that and use the following macros to improve build times or to be able to tune library without recompiling your project:
 [table:linkmacro Link macros
     [[Macro name] [Effect]]
-    [[*BOOST_STACKTRACE_LINK*] [Disable header-only build and require linking with shared or static library that contains the tracing implementation. If *BOOST_ALL_DYN_LINK* is defined, then link with shared library.]]
-    [[*BOOST_STACKTRACE_DYN_LINK*] [Disable header-only build and require linking with shared library that contains tracing implementation.]]
+    [[*STACKTRACE_LINK*] [Disable header-only build and require linking with shared or static library that contains the tracing implementation. If *BOOST_ALL_DYN_LINK* is defined, then link with shared library.]]
+    [[*STACKTRACE_DYN_LINK*] [Disable header-only build and require linking with shared library that contains tracing implementation.]]
 ]
 
 
 In header only mode library could be tuned by macro. If one of the link macro from above is defined, you have to manually link with one of the libraries:
 [table:libconfig Config
     [[Macro name or default] [Library] [Effect] [Platforms] [Uses debug information [footnote This will provide more readable backtraces with *source code locations* if the binary is built with debug information.]] [Uses dynamic exports information [footnote This will provide readable function names in backtrace for functions that are exported by the binary. Compiling with `-rdynamic` flag, without `-fisibility=hidden` or marking functions as exported produce a better stacktraces.]] ]
-    [[['default for MSVC, Intel on Windows, MinGW-w64] / *BOOST_STACKTRACE_USE_WINDBG*] [*boost_stacktrace_windbg*] [ Uses COM to show debug info. May require linking with *ole32* and *dbgeng*. ] [MSVC, MinGW-w64, Intel on Windows] [yes] [no]]
+    [[['default for MSVC, Intel on Windows, MinGW-w64] / *STACKTRACE_USE_WINDBG*] [*boost_stacktrace_windbg*] [ Uses COM to show debug info. May require linking with *ole32* and *dbgeng*. ] [MSVC, MinGW-w64, Intel on Windows] [yes] [no]]
     [[['default for other platforms]] [*boost_stacktrace_basic*] [Uses compiler intrinsics to collect stacktrace and if possible `::dladdr` to show information about the symbol. Requires linking with *libdl* library on POSIX platforms.] [Any compiler on POSIX or MinGW] [no] [yes]]
-    [[*BOOST_STACKTRACE_USE_WINDBG_CACHED*] [*boost_stacktrace_windbg_cached*] [ Uses COM to show debug info and caches COM instances in TLS for better performance. Useful only for cases when traces are gathered very often. [footnote This may affect other components of your program that use COM, because this mode calls the `CoInitializeEx(0, COINIT_MULTITHREADED)` on first use and does not call `::CoUninitialize();` until the current thread is destroyed. ] May require linking with *ole32* and *dbgeng*. ] [MSVC, Intel on Windows] [yes] [no]]
-    [[*BOOST_STACKTRACE_USE_BACKTRACE*] [*boost_stacktrace_backtrace*] [Requires linking with *libdl* on POSIX and *libbacktrace* libraries. *libbacktrace* is probably already installed in your system[footnote If you are using Clang with libstdc++ you could get into troubles of including `<backtrace.h>`, because on some platforms Clang does not search for headers in the GCC's include paths and any attempt to add GCC's include path leads to linker errors. To explicitly specify a path to the `<backtrace.h>` header you could define the *BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE* to a full path to the header. For example on Ubuntu Xenial use the command line option *-DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=</usr/lib/gcc/x86_64-linux-gnu/5/include/backtrace.h>* while building with Clang. ], or built into your compiler.
+    [[*STACKTRACE_USE_WINDBG_CACHED*] [*boost_stacktrace_windbg_cached*] [ Uses COM to show debug info and caches COM instances in TLS for better performance. Useful only for cases when traces are gathered very often. [footnote This may affect other components of your program that use COM, because this mode calls the `CoInitializeEx(0, COINIT_MULTITHREADED)` on first use and does not call `::CoUninitialize();` until the current thread is destroyed. ] May require linking with *ole32* and *dbgeng*. ] [MSVC, Intel on Windows] [yes] [no]]
+    [[*STACKTRACE_USE_BACKTRACE*] [*boost_stacktrace_backtrace*] [Requires linking with *libdl* on POSIX and *libbacktrace* libraries. *libbacktrace* is probably already installed in your system[footnote If you are using Clang with libstdc++ you could get into troubles of including `<backtrace.h>`, because on some platforms Clang does not search for headers in the GCC's include paths and any attempt to add GCC's include path leads to linker errors. To explicitly specify a path to the `<backtrace.h>` header you could define the *STACKTRACE_BACKTRACE_INCLUDE_FILE* to a full path to the header. For example on Ubuntu Xenial use the command line option *-DSTACKTRACE_BACKTRACE_INCLUDE_FILE=</usr/lib/gcc/x86_64-linux-gnu/5/include/backtrace.h>* while building with Clang. ], or built into your compiler.
 
      Otherwise (if you are a *MinGW*/*MinGW-w64* user for example) it can be downloaded [@https://github.com/ianlancetaylor/libbacktrace from here] or [@https://github.com/gcc-mirror/gcc/tree/master/libbacktrace from here]. ] [Any compiler on POSIX, or MinGW, or MinGW-w64] [yes] [yes]]
-    [[*BOOST_STACKTRACE_USE_ADDR2LINE*] [*boost_stacktrace_addr2line*] [Use *addr2line* program to retrieve stacktrace. Requires linking with *libdl* library and `::fork` system call. Macro *BOOST_STACKTRACE_ADDR2LINE_LOCATION* must be defined to the absolute path to the addr2line executable if it is not located in /usr/bin/addr2line. ] [Any compiler on POSIX] [yes] [yes]]
-    [[*BOOST_STACKTRACE_USE_NOOP*] [*boost_stacktrace_noop*] [Use this if you wish to disable backtracing. `stacktrace::size()` with that macro always returns 0. ] [All] [no] [no]]
+    [[*STACKTRACE_USE_ADDR2LINE*] [*boost_stacktrace_addr2line*] [Use *addr2line* program to retrieve stacktrace. Requires linking with *libdl* library and `::fork` system call. Macro *STACKTRACE_ADDR2LINE_LOCATION* must be defined to the absolute path to the addr2line executable if it is not located in /usr/bin/addr2line. ] [Any compiler on POSIX] [yes] [yes]]
+    [[*STACKTRACE_USE_NOOP*] [*boost_stacktrace_noop*] [Use this if you wish to disable backtracing. `stacktrace::size()` with that macro always returns 0. ] [All] [no] [no]]
 ]
 
 [*Examples:]
 
-* if you wish to switch to more powerful implementation on Clang/MinGW and *BOOST_STACKTRACE_LINK* is defined, you just need link with "*-lboost_stacktrace_backtrace -ldl -lbacktrace*" or "*-lboost_stacktrace_addr2line -ldl*"
-* if you wish to disable backtracing and *BOOST_STACKTRACE_LINK* is defined, you just need link with *-lboost_stacktrace_noop*
-* if you wish to disable backtracing and you use the library in header only mode, you just need to define *BOOST_STACKTRACE_USE_NOOP* for the whole project and recompile it
+* if you wish to switch to more powerful implementation on Clang/MinGW and *STACKTRACE_LINK* is defined, you just need link with "*-lboost_stacktrace_backtrace -ldl -lbacktrace*" or "*-lboost_stacktrace_addr2line -ldl*"
+* if you wish to disable backtracing and *STACKTRACE_LINK* is defined, you just need link with *-lboost_stacktrace_noop*
+* if you wish to disable backtracing and you use the library in header only mode, you just need to define *STACKTRACE_USE_NOOP* for the whole project and recompile it
 
 [section MinGW and MinGW-w64 specific notes]
 
@@ -325,7 +325,7 @@ Let's assume that you've installed MinGW into C:\MinGW and downloaded [@https://
     * ./libtool --mode=install /usr/bin/install -c libbacktrace.la '/c/libbacktrace-master'
 * Add info to the project-config.jam in the Boost folder:
     * using gcc : 6 : "C:\\MinGW\\bin\\g++.exe" : <compileflags>-I"C:\\libbacktrace-master\\" <linkflags>-L"C:\\libbacktrace-master\\" ; 
-* Now you can use a header only version by defining *BOOST_STACKTRACE_USE_BACKTRACE* for your project or build the stacktrace library from Boost folder:
+* Now you can use a header only version by defining *STACKTRACE_USE_BACKTRACE* for your project or build the stacktrace library from Boost folder:
     * b2.exe toolset=gcc-6 --with-stacktrace
 
 [endsect]

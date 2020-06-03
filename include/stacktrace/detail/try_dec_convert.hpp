@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_TRY_DEC_CONVERT_HPP
-#define BOOST_STACKTRACE_DETAIL_TRY_DEC_CONVERT_HPP
+#ifndef STACKTRACE_DETAIL_TRY_DEC_CONVERT_HPP_
+#define STACKTRACE_DETAIL_TRY_DEC_CONVERT_HPP_
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -26,4 +26,4 @@ inline bool try_dec_convert(const char* s, std::size_t& res) BOOST_NOEXCEPT {
 
 }}} // namespace boost::stacktrace::detail
 
-#endif // BOOST_STACKTRACE_DETAIL_TRY_DEC_CONVERT_HPP
+#endif // STACKTRACE_DETAIL_TRY_DEC_CONVERT_HPP_

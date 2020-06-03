@@ -41,15 +41,15 @@ void main_test_loop() {
     }
 }
 
-#if defined(BOOST_STACKTRACE_TEST_COM_PREINIT_MT) || defined(BOOST_STACKTRACE_TEST_COM_PREINIT_ST)
+#if defined(STACKTRACE_TEST_COM_PREINIT_MT) || defined(STACKTRACE_TEST_COM_PREINIT_ST)
 #   include <windows.h>
 #   include "dbgeng.h"
 #endif
 
 int main() {
-#if defined(BOOST_STACKTRACE_TEST_COM_PREINIT_MT)
+#if defined(STACKTRACE_TEST_COM_PREINIT_MT)
     ::CoInitializeEx(0, COINIT_MULTITHREADED);
-#elif defined(BOOST_STACKTRACE_TEST_COM_PREINIT_ST)
+#elif defined(STACKTRACE_TEST_COM_PREINIT_ST)
     ::CoInitializeEx(0, COINIT_APARTMENTTHREADED);
 #endif
 
@@ -64,7 +64,7 @@ int main() {
     t2.join();
     t3.join();
 
-#if defined(BOOST_STACKTRACE_TEST_COM_PREINIT_MT) || defined(BOOST_STACKTRACE_TEST_COM_PREINIT_ST)
+#if defined(STACKTRACE_TEST_COM_PREINIT_MT) || defined(STACKTRACE_TEST_COM_PREINIT_ST)
     ::CoUninitialize();
 #endif
 

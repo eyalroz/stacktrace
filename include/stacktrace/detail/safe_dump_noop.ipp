@@ -4,8 +4,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STACKTRACE_DETAIL_SAFE_DUMP_NOOP_IPP
-#define BOOST_STACKTRACE_DETAIL_SAFE_DUMP_NOOP_IPP
+#ifndef STACKTRACE_DETAIL_SAFE_DUMP_NOOP_IPP
+#define STACKTRACE_DETAIL_SAFE_DUMP_NOOP_IPP
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -34,4 +34,4 @@ std::size_t dump(const char* /*file*/, const native_frame_ptr_t* /*frames*/, std
 
 }}} // namespace boost::stacktrace::detail
 
-#endif // BOOST_STACKTRACE_DETAIL_SAFE_DUMP_NOOP_IPP
+#endif // STACKTRACE_DETAIL_SAFE_DUMP_NOOP_IPP
