@@ -14,12 +14,12 @@
 
 #include <stacktrace/safe_dump_to.hpp>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 std::size_t this_thread_frames::collect(native_frame_ptr_t* /*out_frames*/, std::size_t /*max_frames_count*/, std::size_t /*skip*/) BOOST_NOEXCEPT {
     return 0;
 }
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_COLLECT_NOOP_IPP

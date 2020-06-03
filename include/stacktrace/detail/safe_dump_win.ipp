@@ -21,7 +21,7 @@
 #include <boost/winapi/handles.hpp>
 #include <boost/winapi/access_rights.hpp>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 std::size_t dump(void* /*fd*/, const native_frame_ptr_t* /*frames*/, std::size_t /*frames_count*/) BOOST_NOEXCEPT {
 #if 0 // This code potentially could cause deadlocks (according to the MSDN). Disabled
@@ -54,13 +54,13 @@ std::size_t dump(const char* /*file*/, const native_frame_ptr_t* /*frames*/, std
         return 0;
     }
 
-    const std::size_t size = boost::stacktrace::detail::dump(fd, frames, frames_count);
+    const std::size_t size = stacktrace::detail::dump(fd, frames, frames_count);
     boost::winapi::CloseHandle(fd);
     return size;
 #endif
     return 0;
 }
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_SAFE_DUMP_WIN_IPP

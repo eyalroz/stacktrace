@@ -19,7 +19,7 @@
 #include <sys/stat.h>   // S_IWUSR and friends
 
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 std::size_t dump(int fd, const native_frame_ptr_t* frames, std::size_t frames_count) BOOST_NOEXCEPT {
     // We do not retry, because this function must be typically called from signal handler so it's:
@@ -49,11 +49,11 @@ std::size_t dump(const char* file, const native_frame_ptr_t* frames, std::size_t
         return 0;
     }
 
-    const std::size_t size = boost::stacktrace::detail::dump(fd, frames, frames_count);
+    const std::size_t size = stacktrace::detail::dump(fd, frames, frames_count);
     ::close(fd);
     return size;
 }
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_SAFE_DUMP_POSIX_IPP

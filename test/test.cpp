@@ -18,8 +18,8 @@
 
 #include "test_impl.hpp"
 
-using boost::stacktrace::stacktrace;
-using boost::stacktrace::frame;
+using stacktrace::stacktrace;
+using stacktrace::frame;
 
 
 #if (defined(BOOST_GCC) && defined(BOOST_WINDOWS) && !defined(STACKTRACE_USE_BACKTRACE) && !defined(STACKTRACE_USE_ADDR2LINE)) \
@@ -183,7 +183,7 @@ void test_iterators() {
     BOOST_TEST(st.size() == static_cast<std::size_t>(std::distance(st.rbegin(), st.crend())));
 
 
-    boost::stacktrace::stacktrace::iterator it = st.begin();
+    stacktrace::stacktrace::iterator it = st.begin();
     ++ it;
     BOOST_TEST(it == st.begin() + 1);
 }
@@ -225,7 +225,7 @@ void test_frame() {
         BOOST_TEST(hash_value(st[i]) == hash_value(fv));
     }
 
-    boost::stacktrace::frame empty_frame;
+    stacktrace::frame empty_frame;
     BOOST_TEST(!empty_frame);
     BOOST_TEST_EQ(empty_frame.source_file(), "");
     BOOST_TEST_EQ(empty_frame.name(), "");
@@ -235,7 +235,7 @@ void test_frame() {
 // Template parameter bool BySkip is to produce different functions on each BySkip. This simplifies debugging when one of the tests catches error
 template <bool BySkip>
 void test_empty_basic_stacktrace() {
-    typedef boost::stacktrace::stacktrace st_t;
+    typedef stacktrace::stacktrace st_t;
     st_t st = BySkip ? st_t(100500, 1024) :  st_t(0, 0);
 
     BOOST_TEST(!st);
@@ -268,15 +268,15 @@ int main() {
     test_empty_basic_stacktrace<false>();
 
     BOOST_TEST(&make_some_stacktrace1 != &make_some_stacktrace2);
-    boost::stacktrace::stacktrace b1 = make_some_stacktrace1();
+    stacktrace::stacktrace b1 = make_some_stacktrace1();
     BOOST_TEST(b1.size() == 4);
-    boost::stacktrace::stacktrace b2 = make_some_stacktrace2();
+    stacktrace::stacktrace b2 = make_some_stacktrace2();
     BOOST_TEST(b2.size() == 4);
     test_comparisons_base(make_some_stacktrace1(), make_some_stacktrace2());
 
     test_nested<260>(false);
-    BOOST_TEST(boost::stacktrace::stacktrace(0, 1).size() == 1);
-    BOOST_TEST(boost::stacktrace::stacktrace(1, 1).size() == 1);
+    BOOST_TEST(stacktrace::stacktrace(0, 1).size() == 1);
+    BOOST_TEST(stacktrace::stacktrace(1, 1).size() == 1);
 
     return boost::report_errors();
 }

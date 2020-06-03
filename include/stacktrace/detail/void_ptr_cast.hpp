@@ -20,7 +20,7 @@
 #   pragma GCC system_header
 #endif
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 // GCC warns when reinterpret_cast between function pointer and object pointer occur.
 // This functionsuppress the warnings and ensures that such casts are safe.
@@ -40,7 +40,7 @@ To void_ptr_cast(From* v) BOOST_NOEXCEPT {
 }
 
 
-}}} // boost::stacktrace::detail
+}}} // stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_VOID_PTR_CAST_HPP_
 

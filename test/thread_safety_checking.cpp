@@ -16,7 +16,7 @@
 
 #include <boost/timer/timer.hpp>
 
-using boost::stacktrace::stacktrace;
+using stacktrace::stacktrace;
 
 
 void main_test_loop() {

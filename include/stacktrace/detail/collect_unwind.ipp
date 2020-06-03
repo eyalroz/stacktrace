@@ -33,7 +33,7 @@
 #error "Boost.Stacktrace requires `_Unwind_Backtrace` function. Define `_GNU_SOURCE` macro or `STACKTRACE_GNU_SOURCE_NOT_REQUIRED` if _Unwind_Backtrace is available without `_GNU_SOURCE`."
 #endif
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 #if !defined(STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION)
 struct unwind_state {
@@ -86,8 +86,8 @@ std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::siz
         }
     }
 #else
-    boost::stacktrace::detail::unwind_state state = { skip, out_frames, out_frames + max_frames_count };
-    ::_Unwind_Backtrace(&boost::stacktrace::detail::unwind_callback, &state);
+    stacktrace::detail::unwind_state state = { skip, out_frames, out_frames + max_frames_count };
+    ::_Unwind_Backtrace(&stacktrace::detail::unwind_callback, &state);
     frames_count = state.current - out_frames;
 #endif //defined(STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION)
 
@@ -99,7 +99,7 @@ std::size_t this_thread_frames::collect(native_frame_ptr_t* out_frames, std::siz
 }
 
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #undef STACKTRACE_USE_LIBC_BACKTRACE_FUNCTION
 

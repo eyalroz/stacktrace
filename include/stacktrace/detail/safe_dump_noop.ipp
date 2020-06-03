@@ -14,7 +14,7 @@
 
 #include <stacktrace/safe_dump_to.hpp>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 
 #if defined(BOOST_WINDOWS)
@@ -32,6 +32,6 @@ std::size_t dump(const char* /*file*/, const native_frame_ptr_t* /*frames*/, std
     return 0;
 }
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_SAFE_DUMP_NOOP_IPP

@@ -33,12 +33,12 @@ using namespace boost::stacktrace;
 # endif
 #endif
 
-typedef std::pair<boost::stacktrace::stacktrace, boost::stacktrace::stacktrace> st_pair;
+typedef std::pair<stacktrace::stacktrace, stacktrace::stacktrace> st_pair;
 typedef st_pair (*foo1_t)(int i);
 BOOST_ST_API st_pair function_from_library(int i, foo1_t foo1);
-BOOST_ST_API boost::stacktrace::stacktrace return_from_nested_namespaces();
-BOOST_ST_API boost::stacktrace::stacktrace make_some_stacktrace1();
-BOOST_ST_API boost::stacktrace::stacktrace make_some_stacktrace2();
+BOOST_ST_API stacktrace::stacktrace return_from_nested_namespaces();
+BOOST_ST_API stacktrace::stacktrace make_some_stacktrace1();
+BOOST_ST_API stacktrace::stacktrace make_some_stacktrace2();
 
 #ifdef STACKTRACE_TEST_EXPORTS_TABLE_USAGE
   BOOST_SYMBOL_VISIBLE

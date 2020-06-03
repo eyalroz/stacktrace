@@ -7,22 +7,17 @@
 #ifndef STACKTRACE_FRAME_HPP_
 #define STACKTRACE_FRAME_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
-
 #include <iosfwd>
 #include <string>
 
 #include <boost/core/explicit_operator_bool.hpp>
 
-#include <stacktrace/safe_dump_to.hpp> // boost::stacktrace::detail::native_frame_ptr_t
+#include <stacktrace/safe_dump_to.hpp> // stacktrace::detail::native_frame_ptr_t
 
 #include <stacktrace/detail/frame_decl.hpp>
 #include <stacktrace/detail/push_options.h>
 
-namespace boost { namespace stacktrace {
+namespace stacktrace {
 
 /// Comparison operators that provide platform dependant ordering and have O(1) complexity; are Async-Handler-Safe.
 BOOST_CONSTEXPR inline bool operator< (const frame& lhs, const frame& rhs) BOOST_NOEXCEPT { return lhs.address() < rhs.address(); }
@@ -43,7 +38,7 @@ STACKTRACE_FUNCTION std::string to_string(const frame& f);
 /// Outputs stacktrace::frame in a human readable format to output stream; unsafe to use in async handlers.
 template <class CharT, class TraitsT>
 std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT>& os, const frame& f) {
-    return os << boost::stacktrace::to_string(f);
+    return os << stacktrace::to_string(f);
 }
 
 }} // namespace boost::stacktrace

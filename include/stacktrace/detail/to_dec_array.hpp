@@ -14,7 +14,7 @@
 
 #include <boost/array.hpp>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 // We do not use boost::lexical_cast in this function to reduce module dependencies
 inline boost::array<char, 40> to_dec_array(std::size_t value) BOOST_NOEXCEPT {
@@ -41,6 +41,6 @@ inline boost::array<char, 40> to_dec_array(std::size_t value) BOOST_NOEXCEPT {
 }
 
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_TO_DEC_ARRAY_HPP_

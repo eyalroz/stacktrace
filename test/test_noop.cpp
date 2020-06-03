@@ -13,8 +13,8 @@
 
 #include <boost/functional/hash.hpp>
 
-using boost::stacktrace::stacktrace;
-using boost::stacktrace::frame;
+using stacktrace::stacktrace;
+using stacktrace::frame;
 
 void test_deeply_nested_namespaces() {
     BOOST_TEST(return_from_nested_namespaces().size() == 0);
@@ -37,13 +37,13 @@ void test_nested() {
 }
 
 void test_empty_frame() {
-    boost::stacktrace::frame empty_frame;
+    stacktrace::frame empty_frame;
     BOOST_TEST(!empty_frame);
     BOOST_TEST(empty_frame.source_file() == "");
     BOOST_TEST(empty_frame.name() == "");
     BOOST_TEST(empty_frame.source_line() == 0);
 
-    boost::stacktrace::frame f(0);
+    stacktrace::frame f(0);
     BOOST_TEST(f.name() == "");
     BOOST_TEST(f.source_file() == "");
     BOOST_TEST(f.source_line() == 0);

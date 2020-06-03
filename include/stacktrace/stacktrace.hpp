@@ -7,11 +7,6 @@
 #ifndef STACKTRACE_STACKTRACE_HPP_
 #define STACKTRACE_STACKTRACE_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
-
 #include <boost/core/explicit_operator_bool.hpp>
 #include <boost/core/no_exceptions_support.hpp>
 #include <boost/container_hash/hash_fwd.hpp>
@@ -19,28 +14,25 @@
 #include <iosfwd>
 #include <string>
 #include <vector>
-
-#ifndef BOOST_NO_CXX11_HDR_TYPE_TRAITS
-#   include <type_traits>
-#endif
+#include <type_traits>
 
 #include <stacktrace/stacktrace_fwd.hpp>
 #include <stacktrace/safe_dump_to.hpp>
 #include <stacktrace/detail/frame_decl.hpp>
 
-#ifdef BOOST_INTEL
+#ifdef __INTEL_COMPILER
 #   pragma warning(push)
 #   pragma warning(disable:2196) // warning #2196: routine is both "inline" and "noinline"
 #endif
 
-namespace boost { namespace stacktrace {
+namespace stacktrace {
 
 /// Class that on construction copies minimal information about call stack into its internals and provides access to that information.
 /// @tparam Allocator Allocator to use during stack capture.
 template <class Allocator>
 class basic_stacktrace {
-    std::vector<boost::stacktrace::frame, Allocator> impl_;
-    typedef boost::stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
+    std::vector<stacktrace::frame, Allocator> impl_;
+    typedef stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
 
     /// @cond
     void fill(native_frame_ptr_t* begin, std::size_t size) {
@@ -73,7 +65,7 @@ class basic_stacktrace {
         BOOST_TRY {
             {   // Fast path without additional allocations
                 native_frame_ptr_t buffer[buffer_size];
-                const std::size_t frames_count = boost::stacktrace::detail::this_thread_frames::collect(buffer, buffer_size < max_depth ? buffer_size : max_depth, frames_to_skip + 1);
+                const std::size_t frames_count = stacktrace::detail::this_thread_frames::collect(buffer, buffer_size < max_depth ? buffer_size : max_depth, frames_to_skip + 1);
                 if (buffer_size > frames_count || frames_count == max_depth) {
                     fill(buffer, frames_count);
                     return;
@@ -88,7 +80,7 @@ class basic_stacktrace {
 #endif
             std::vector<native_frame_ptr_t, allocator_void_t> buf(buffer_size * 2, 0, impl_.get_allocator());
             do {
-                const std::size_t frames_count = boost::stacktrace::detail::this_thread_frames::collect(&buf[0], buf.size() < max_depth ? buf.size() : max_depth, frames_to_skip + 1);
+                const std::size_t frames_count = stacktrace::detail::this_thread_frames::collect(&buf[0], buf.size() < max_depth ? buf.size() : max_depth, frames_to_skip + 1);
                 if (buf.size() > frames_count || frames_count == max_depth) {
                     fill(&buf[0], frames_count);
                     return;
@@ -104,18 +96,18 @@ class basic_stacktrace {
     /// @endcond
 
 public:
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::value_type             value_type;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::allocator_type         allocator_type;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_pointer          pointer;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_pointer          const_pointer;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_reference        reference;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_reference        const_reference;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::size_type              size_type;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::difference_type        difference_type;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_iterator         iterator;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_iterator         const_iterator;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_reverse_iterator reverse_iterator;
-    typedef typename std::vector<boost::stacktrace::frame, Allocator>::const_reverse_iterator const_reverse_iterator;
+    typedef typename std::vector<stacktrace::frame, Allocator>::value_type             value_type;
+    typedef typename std::vector<stacktrace::frame, Allocator>::allocator_type         allocator_type;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_pointer          pointer;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_pointer          const_pointer;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_reference        reference;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_reference        const_reference;
+    typedef typename std::vector<stacktrace::frame, Allocator>::size_type              size_type;
+    typedef typename std::vector<stacktrace::frame, Allocator>::difference_type        difference_type;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_iterator         iterator;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_iterator         const_iterator;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_reverse_iterator reverse_iterator;
+    typedef typename std::vector<stacktrace::frame, Allocator>::const_reverse_iterator const_reverse_iterator;
 
     /// @brief Stores the current function call sequence inside *this without any decoding or any other heavy platform specific operations.
     ///
@@ -196,7 +188,7 @@ public:
     /// @b Async-Handler-Safety: Safe if Allocator construction and copying are async signal safe.
     basic_stacktrace& operator=(basic_stacktrace&& st)
 #ifndef BOOST_NO_CXX11_HDR_TYPE_TRAITS
-        BOOST_NOEXCEPT_IF(( std::is_nothrow_move_assignable< std::vector<boost::stacktrace::frame, Allocator> >::value ))
+        BOOST_NOEXCEPT_IF(( std::is_nothrow_move_assignable< std::vector<stacktrace::frame, Allocator> >::value ))
 #else
         BOOST_NOEXCEPT
 #endif
@@ -282,7 +274,7 @@ public:
     bool operator!() const BOOST_NOEXCEPT { return !size(); }
     /// @endcond
 
-    const std::vector<boost::stacktrace::frame, Allocator>& as_vector() const BOOST_NOEXCEPT {
+    const std::vector<stacktrace::frame, Allocator>& as_vector() const BOOST_NOEXCEPT {
         return impl_;
     }
 
@@ -319,9 +311,9 @@ public:
 
     /// Constructs stacktrace from raw memory dump. Terminating zero frame is discarded.
     ///
-    /// @param begin Begining of the memory where the stacktrace was saved using the boost::stacktrace::safe_dump_to
+    /// @param begin Begining of the memory where the stacktrace was saved using the stacktrace::safe_dump_to
     ///
-    /// @param buffer_size_in_bytes Size of the memory. Usually the same value that was passed to the boost::stacktrace::safe_dump_to
+    /// @param buffer_size_in_bytes Size of the memory. Usually the same value that was passed to the stacktrace::safe_dump_to
     ///
     /// @b Complexity: O(size) in worst case
     static basic_stacktrace from_dump(const void* begin, std::size_t buffer_size_in_bytes, const allocator_type& a = allocator_type()) {
@@ -401,21 +393,21 @@ std::string to_string(const basic_stacktrace<Allocator>& bt) {
         return std::string();
     }
 
-    return boost::stacktrace::detail::to_string(&bt.as_vector()[0], bt.size());
+    return stacktrace::detail::to_string(&bt.as_vector()[0], bt.size());
 }
 
 /// Outputs stacktrace in a human readable format to the output stream `os`; unsafe to use in async handlers.
 template <class CharT, class TraitsT, class Allocator>
 std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT>& os, const basic_stacktrace<Allocator>& bt) {
-    return os << boost::stacktrace::to_string(bt);
+    return os << stacktrace::to_string(bt);
 }
 
-/// This is the typedef to use unless you'd like to provide a specific allocator to boost::stacktrace::basic_stacktrace.
+/// This is the typedef to use unless you'd like to provide a specific allocator to stacktrace::basic_stacktrace.
 typedef basic_stacktrace<> stacktrace;
 
-}} // namespace boost::stacktrace
+} // namespace stacktrace
 
-#ifdef BOOST_INTEL
+__INTEL_COMPILER
 #   pragma warning(pop)
 #endif
 

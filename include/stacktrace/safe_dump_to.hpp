@@ -7,11 +7,6 @@
 #ifndef STACKTRACE_SAFE_DUMP_TO_HPP_
 #define STACKTRACE_SAFE_DUMP_TO_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
-
 #if defined(BOOST_WINDOWS)
 #include <boost/winapi/config.hpp>
 #endif
@@ -24,9 +19,9 @@
 #endif
 
 /// @file safe_dump_to.hpp This header contains low-level async-signal-safe functions for dumping call stacks. Dumps are binary serialized arrays of `void*`,
-/// so you could read them by using 'od -tx8 -An stacktrace_dump_failename' Linux command or using boost::stacktrace::stacktrace::from_dump functions.
+/// so you could read them by using 'od -tx8 -An stacktrace_dump_failename' Linux command or using stacktrace::stacktrace::from_dump functions.
 
-namespace boost { namespace stacktrace {
+namespace stacktrace {
 
 /// @cond
 namespace detail {
@@ -48,30 +43,30 @@ struct this_thread_frames { // struct is required to avoid warning about usage o
     BOOST_NOINLINE STACKTRACE_FUNCTION static std::size_t collect(native_frame_ptr_t* out_frames, std::size_t max_frames_count, std::size_t skip) BOOST_NOEXCEPT;
 
     BOOST_NOINLINE static std::size_t safe_dump_to_impl(void* memory, std::size_t size, std::size_t skip) BOOST_NOEXCEPT {
-        typedef boost::stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
+        typedef stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
 
         if (size < sizeof(native_frame_ptr_t)) {
             return 0;
         }
 
         native_frame_ptr_t* mem = static_cast<native_frame_ptr_t*>(memory);
-        const std::size_t frames_count = boost::stacktrace::detail::this_thread_frames::collect(mem, size / sizeof(native_frame_ptr_t) - 1, skip + 1);
+        const std::size_t frames_count = stacktrace::detail::this_thread_frames::collect(mem, size / sizeof(native_frame_ptr_t) - 1, skip + 1);
         mem[frames_count] = 0;
         return frames_count + 1;
     }
 
     template <class T>
     BOOST_NOINLINE static std::size_t safe_dump_to_impl(T file, std::size_t skip, std::size_t max_depth) BOOST_NOEXCEPT {
-        typedef boost::stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
+        typedef stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
 
-        native_frame_ptr_t buffer[boost::stacktrace::detail::max_frames_dump + 1];
-        if (max_depth > boost::stacktrace::detail::max_frames_dump) {
-            max_depth = boost::stacktrace::detail::max_frames_dump;
+        native_frame_ptr_t buffer[stacktrace::detail::max_frames_dump + 1];
+        if (max_depth > stacktrace::detail::max_frames_dump) {
+            max_depth = stacktrace::detail::max_frames_dump;
         }
 
-        const std::size_t frames_count = boost::stacktrace::detail::this_thread_frames::collect(buffer, max_depth, skip + 1);
+        const std::size_t frames_count = stacktrace::detail::this_thread_frames::collect(buffer, max_depth, skip + 1);
         buffer[frames_count] = 0;
-        return boost::stacktrace::detail::dump(file, buffer, frames_count + 1);
+        return stacktrace::detail::dump(file, buffer, frames_count + 1);
     }
 };
 
@@ -84,13 +79,13 @@ struct this_thread_frames { // struct is required to avoid warning about usage o
 ///
 /// @b Async-Handler-Safety: Safe.
 ///
-/// @returns Stored call sequence depth including terminating zero frame. To get the actually consumed bytes multiply this value by the sizeof(boost::stacktrace::frame::native_frame_ptr_t)
+/// @returns Stored call sequence depth including terminating zero frame. To get the actually consumed bytes multiply this value by the sizeof(stacktrace::frame::native_frame_ptr_t)
 ///
 /// @param memory Preallocated buffer to store current function call sequence into.
 ///
 /// @param size Size of the preallocated buffer.
 BOOST_FORCEINLINE std::size_t safe_dump_to(void* memory, std::size_t size) BOOST_NOEXCEPT {
-    return  boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(memory, size, 0);
+    return  stacktrace::detail::this_thread_frames::safe_dump_to_impl(memory, size, 0);
 }
 
 /// @brief Stores current function call sequence into the memory.
@@ -99,7 +94,7 @@ BOOST_FORCEINLINE std::size_t safe_dump_to(void* memory, std::size_t size) BOOST
 ///
 /// @b Async-Handler-Safety: Safe.
 ///
-/// @returns Stored call sequence depth including terminating zero frame.  To get the actually consumed bytes multiply this value by the sizeof(boost::stacktrace::frame::native_frame_ptr_t)
+/// @returns Stored call sequence depth including terminating zero frame.  To get the actually consumed bytes multiply this value by the sizeof(stacktrace::frame::native_frame_ptr_t)
 ///
 /// @param skip How many top calls to skip and do not store.
 ///
@@ -107,7 +102,7 @@ BOOST_FORCEINLINE std::size_t safe_dump_to(void* memory, std::size_t size) BOOST
 ///
 /// @param size Size of the preallocated buffer.
 BOOST_FORCEINLINE std::size_t safe_dump_to(std::size_t skip, void* memory, std::size_t size) BOOST_NOEXCEPT {
-    return  boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(memory, size, skip);
+    return  stacktrace::detail::this_thread_frames::safe_dump_to_impl(memory, size, skip);
 }
 
 
@@ -121,7 +116,7 @@ BOOST_FORCEINLINE std::size_t safe_dump_to(std::size_t skip, void* memory, std::
 ///
 /// @param file File to store current function call sequence.
 BOOST_FORCEINLINE std::size_t safe_dump_to(const char* file) BOOST_NOEXCEPT {
-    return boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(file, 0, boost::stacktrace::detail::max_frames_dump);
+    return stacktrace::detail::this_thread_frames::safe_dump_to_impl(file, 0, stacktrace::detail::max_frames_dump);
 }
 
 /// @brief Opens a file and rewrites its content with current function call sequence if such operations are async signal safe.
@@ -138,7 +133,7 @@ BOOST_FORCEINLINE std::size_t safe_dump_to(const char* file) BOOST_NOEXCEPT {
 ///
 /// @param file File to store current function call sequence.
 BOOST_FORCEINLINE std::size_t safe_dump_to(std::size_t skip, std::size_t max_depth, const char* file) BOOST_NOEXCEPT {
-    return boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(file, skip, max_depth);
+    return stacktrace::detail::this_thread_frames::safe_dump_to_impl(file, skip, max_depth);
 }
 
 #ifdef STACKTRACE_DOXYGEN_INVOKED
@@ -172,22 +167,22 @@ BOOST_FORCEINLINE std::size_t safe_dump_to(std::size_t skip, std::size_t max_dep
 #elif defined(BOOST_WINDOWS)
 
 BOOST_FORCEINLINE std::size_t safe_dump_to(void* fd) BOOST_NOEXCEPT {
-    return boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, 0, boost::stacktrace::detail::max_frames_dump);
+    return stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, 0, stacktrace::detail::max_frames_dump);
 }
 
 BOOST_FORCEINLINE std::size_t safe_dump_to(std::size_t skip, std::size_t max_depth, void* fd) BOOST_NOEXCEPT {
-    return boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, skip, max_depth);
+    return stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, skip, max_depth);
 }
 
 #else
 
 // POSIX
 BOOST_FORCEINLINE std::size_t safe_dump_to(int fd) BOOST_NOEXCEPT {
-    return boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, 0, boost::stacktrace::detail::max_frames_dump);
+    return stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, 0, stacktrace::detail::max_frames_dump);
 }
 
 BOOST_FORCEINLINE std::size_t safe_dump_to(std::size_t skip, std::size_t max_depth, int fd) BOOST_NOEXCEPT {
-    return boost::stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, skip, max_depth);
+    return stacktrace::detail::this_thread_frames::safe_dump_to_impl(fd, skip, max_depth);
 }
 
 #endif

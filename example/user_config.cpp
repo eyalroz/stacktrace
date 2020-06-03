@@ -18,7 +18,7 @@ BOOST_NOINLINE void bar(int i) {
     if (i >= 0) {
         foo(a[i]);
     } else {
-        std::cerr << "Terminate called:\n" << boost::stacktrace::stacktrace() << '\n';
+        std::cerr << "Terminate called:\n" << stacktrace::stacktrace() << '\n';
         std::exit(0);
     }
 }

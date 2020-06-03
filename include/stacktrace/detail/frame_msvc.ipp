@@ -42,7 +42,7 @@
 // Testing. Remove later
 //#   define __uuidof(x) ::IID_ ## x
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 class com_global_initer: boost::noncopyable {
     bool ok_;
@@ -160,7 +160,7 @@ class debugging_symbols: boost::noncopyable {
 
 #ifndef STACKTRACE_USE_WINDBG_CACHED
 
-    boost::stacktrace::detail::com_global_initer com_;
+    stacktrace::detail::com_global_initer com_;
     com_holder< ::IDebugSymbols> idebug_;
 public:
     debugging_symbols() BOOST_NOEXCEPT
@@ -179,7 +179,7 @@ public:
     static com_holder< ::IDebugSymbols>& get_thread_local_debug_inst() BOOST_NOEXCEPT {
         // [class.mfct]: A static local variable or local type in a member function always refers to the same entity, whether
         // or not the member function is inline.
-        static thread_local boost::stacktrace::detail::com_global_initer com;
+        static thread_local stacktrace::detail::com_global_initer com;
         static thread_local com_holder< ::IDebugSymbols> idebug(com);
 
         if (!idebug.is_inited()) {
@@ -342,7 +342,7 @@ public:
             res += " at ";
             res += source_line.first;
             res += ':';
-            res += boost::stacktrace::detail::to_dec_array(source_line.second).data();
+            res += stacktrace::detail::to_dec_array(source_line.second).data();
         } else if (!module_name.empty()) {
             res += " in ";
             res += module_name;
@@ -351,7 +351,7 @@ public:
 };
 
 std::string to_string(const frame* frames, std::size_t size) {
-    boost::stacktrace::detail::debugging_symbols idebug;
+    stacktrace::detail::debugging_symbols idebug;
     if (!idebug.is_inited()) {
         return std::string();
     }
@@ -362,7 +362,7 @@ std::string to_string(const frame* frames, std::size_t size) {
         if (i < 10) {
             res += ' ';
         }
-        res += boost::stacktrace::detail::to_dec_array(i).data();
+        res += stacktrace::detail::to_dec_array(i).data();
         res += '#';
         res += ' ';
         idebug.to_string_impl(frames[i].address(), res);
@@ -375,25 +375,25 @@ std::string to_string(const frame* frames, std::size_t size) {
 } // namespace detail
 
 std::string frame::name() const {
-    boost::stacktrace::detail::debugging_symbols idebug;
+    stacktrace::detail::debugging_symbols idebug;
     return idebug.get_name_impl(addr_);
 }
 
 
 std::string frame::source_file() const {
-    boost::stacktrace::detail::debugging_symbols idebug;
+    stacktrace::detail::debugging_symbols idebug;
     return idebug.get_source_file_line_impl(addr_).first;
 }
 
 std::size_t frame::source_line() const {
-    boost::stacktrace::detail::debugging_symbols idebug;
+    stacktrace::detail::debugging_symbols idebug;
     return idebug.get_line_impl(addr_);
 }
 
 std::string to_string(const frame& f) {
     std::string res;
 
-    boost::stacktrace::detail::debugging_symbols idebug;
+    stacktrace::detail::debugging_symbols idebug;
     idebug.to_string_impl(f.address(), res);
     return res;
 }

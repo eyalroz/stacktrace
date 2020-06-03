@@ -14,7 +14,7 @@
 
 #include <cstdlib>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 // We do not use boost::lexical_cast in this function to reduce module dependencies
 inline bool try_dec_convert(const char* s, std::size_t& res) BOOST_NOEXCEPT {
@@ -24,6 +24,6 @@ inline bool try_dec_convert(const char* s, std::size_t& res) BOOST_NOEXCEPT {
 }
 
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_TRY_DEC_CONVERT_HPP_

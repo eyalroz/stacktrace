@@ -7,11 +7,6 @@
 #ifndef STACKTRACE_HPP_
 #define STACKTRACE_HPP_
 
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#   pragma once
-#endif
-
 #include <stacktrace/frame.hpp>
 #include <stacktrace/stacktrace.hpp>
 #include <stacktrace/safe_dump_to.hpp>

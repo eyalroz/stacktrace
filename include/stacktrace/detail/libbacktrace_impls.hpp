@@ -23,7 +23,7 @@
 #   include <backtrace.h>
 #endif
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 
 struct pc_data {
@@ -41,7 +41,7 @@ inline void libbacktrace_syminfo_callback(void *data, uintptr_t /*pc*/, const ch
 
 // Old versions of libbacktrace have different signature for the callback
 inline void libbacktrace_syminfo_callback(void *data, uintptr_t pc, const char *symname, uintptr_t symval) {
-    boost::stacktrace::detail::libbacktrace_syminfo_callback(data, pc, symname, symval, 0);
+    stacktrace::detail::libbacktrace_syminfo_callback(data, pc, symname, symval, 0);
 }
 
 inline int libbacktrace_full_callback(void *data, uintptr_t /*pc*/, const char *filename, int lineno, const char *function) {
@@ -76,7 +76,7 @@ BOOST_SYMBOL_VISIBLE inline ::backtrace_state* construct_state(const program_loc
     //static ::backtrace_state* state = ::backtrace_create_state(
     //    prog_location.name(),
     //    1, // allow safe concurrent usage of the same state
-    //    boost::stacktrace::detail::libbacktrace_error_callback,
+    //    stacktrace::detail::libbacktrace_error_callback,
     //    0 // pointer to data that will be passed to callback
     //);
     //
@@ -104,7 +104,7 @@ BOOST_SYMBOL_VISIBLE inline ::backtrace_state* construct_state(const program_loc
       ::backtrace_state* state = ::backtrace_create_state(
         prog_location.name(),
         0,
-        boost::stacktrace::detail::libbacktrace_error_callback,
+        stacktrace::detail::libbacktrace_error_callback,
         0
     );
     return state;
@@ -112,27 +112,27 @@ BOOST_SYMBOL_VISIBLE inline ::backtrace_state* construct_state(const program_loc
 
 struct to_string_using_backtrace {
     std::string res;
-    boost::stacktrace::detail::program_location prog_location;
+    stacktrace::detail::program_location prog_location;
     ::backtrace_state* state;
     std::string filename;
     std::size_t line;
 
     void prepare_function_name(const void* addr) {
-        boost::stacktrace::detail::pc_data data = {&res, &filename, 0};
+        stacktrace::detail::pc_data data = {&res, &filename, 0};
         if (state) {
             ::backtrace_pcinfo(
                 state,
                 reinterpret_cast<uintptr_t>(addr),
-                boost::stacktrace::detail::libbacktrace_full_callback,
-                boost::stacktrace::detail::libbacktrace_error_callback,
+                stacktrace::detail::libbacktrace_full_callback,
+                stacktrace::detail::libbacktrace_error_callback,
                 &data
             ) 
             ||
             ::backtrace_syminfo(
                 state,
                 reinterpret_cast<uintptr_t>(addr),
-                boost::stacktrace::detail::libbacktrace_syminfo_callback,
-                boost::stacktrace::detail::libbacktrace_error_callback,
+                stacktrace::detail::libbacktrace_syminfo_callback,
+                stacktrace::detail::libbacktrace_error_callback,
                 &data
             );
         }
@@ -147,12 +147,12 @@ struct to_string_using_backtrace {
         res += " at ";
         res += filename;
         res += ':';
-        res += boost::stacktrace::detail::to_dec_array(line).data();
+        res += stacktrace::detail::to_dec_array(line).data();
         return true;
     }
 
     to_string_using_backtrace() BOOST_NOEXCEPT {
-        state = boost::stacktrace::detail::construct_state(prog_location);
+        state = stacktrace::detail::construct_state(prog_location);
     }
 };
 
@@ -162,24 +162,24 @@ typedef to_string_impl_base<to_string_using_backtrace> to_string_impl;
 inline std::string name_impl(const void* addr) {
     std::string res;
 
-    boost::stacktrace::detail::program_location prog_location;
-    ::backtrace_state* state = boost::stacktrace::detail::construct_state(prog_location);
+    stacktrace::detail::program_location prog_location;
+    ::backtrace_state* state = stacktrace::detail::construct_state(prog_location);
 
-    boost::stacktrace::detail::pc_data data = {&res, 0, 0};
+    stacktrace::detail::pc_data data = {&res, 0, 0};
     if (state) {
         ::backtrace_pcinfo(
             state,
             reinterpret_cast<uintptr_t>(addr),
-            boost::stacktrace::detail::libbacktrace_full_callback,
-            boost::stacktrace::detail::libbacktrace_error_callback,
+            stacktrace::detail::libbacktrace_full_callback,
+            stacktrace::detail::libbacktrace_error_callback,
             &data
         )
         ||
         ::backtrace_syminfo(
             state,
             reinterpret_cast<uintptr_t>(addr),
-            boost::stacktrace::detail::libbacktrace_syminfo_callback,
-            boost::stacktrace::detail::libbacktrace_error_callback,
+            stacktrace::detail::libbacktrace_syminfo_callback,
+            stacktrace::detail::libbacktrace_error_callback,
             &data
         );
     }
@@ -199,16 +199,16 @@ std::string frame::source_file() const {
         return res;
     }
 
-    boost::stacktrace::detail::program_location prog_location;
-    ::backtrace_state* state = boost::stacktrace::detail::construct_state(prog_location);
+    stacktrace::detail::program_location prog_location;
+    ::backtrace_state* state = stacktrace::detail::construct_state(prog_location);
 
-    boost::stacktrace::detail::pc_data data = {0, &res, 0};
+    stacktrace::detail::pc_data data = {0, &res, 0};
     if (state) {
         ::backtrace_pcinfo(
             state,
             reinterpret_cast<uintptr_t>(addr_),
-            boost::stacktrace::detail::libbacktrace_full_callback,
-            boost::stacktrace::detail::libbacktrace_error_callback,
+            stacktrace::detail::libbacktrace_full_callback,
+            stacktrace::detail::libbacktrace_error_callback,
             &data
         );
     }
@@ -221,16 +221,16 @@ std::size_t frame::source_line() const {
         return 0;
     }
 
-    boost::stacktrace::detail::program_location prog_location;
-    ::backtrace_state* state = boost::stacktrace::detail::construct_state(prog_location);
+    stacktrace::detail::program_location prog_location;
+    ::backtrace_state* state = stacktrace::detail::construct_state(prog_location);
 
-    boost::stacktrace::detail::pc_data data = {0, 0, 0};
+    stacktrace::detail::pc_data data = {0, 0, 0};
     if (state) {
         ::backtrace_pcinfo(
             state,
             reinterpret_cast<uintptr_t>(addr_),
-            boost::stacktrace::detail::libbacktrace_full_callback,
-            boost::stacktrace::detail::libbacktrace_error_callback,
+            stacktrace::detail::libbacktrace_full_callback,
+            stacktrace::detail::libbacktrace_error_callback,
             &data
         );
     }

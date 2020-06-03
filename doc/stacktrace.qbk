@@ -29,18 +29,18 @@ Boost.Stacktrace library is a simple C++03 library that provides information abo
 
 [section How to print current call stack]
 
-[classref boost::stacktrace::stacktrace] contains methods for working with call-stack/backtraces/stacktraces. Here's a small example:
+[classref stacktrace::stacktrace] contains methods for working with call-stack/backtraces/stacktraces. Here's a small example:
 ```
 #include <boost/stacktrace.hpp>
 
 // ... somewhere inside the `bar(int)` function that is called recursively:
-std::cout << boost::stacktrace::stacktrace();
+std::cout << stacktrace::stacktrace();
 ```
 
 In that example:
 
-* `boost::stacktrace::` is the namespace that has all the classes and functions to work with stacktraces
-* [classref boost::stacktrace::stacktrace stacktrace()] is the default constructor call; constructor stores the current function call sequence inside the stacktrace class.
+* `stacktrace::` is the namespace that has all the classes and functions to work with stacktraces
+* [classref stacktrace::stacktrace stacktrace()] is the default constructor call; constructor stores the current function call sequence inside the stacktrace class.
 
 Code from above will output something like this:
 
@@ -119,7 +119,7 @@ That's not enough to locate the problem without debugger. There may be thousand 
 
 [getting_started_assert_handlers]
 
-We've defined the `BOOST_ENABLE_ASSERT_DEBUG_HANDLER` macro for the whole project. Now all the `BOOST_ASSERT` and `BOOST_ASSERT_MSG` will call our functions `assertion_failed` and `assertion_failed_msg` in case of failure. In `assertion_failed_msg` we output information that was provided by the assertion macro and [classref boost::stacktrace::stacktrace]:
+We've defined the `BOOST_ENABLE_ASSERT_DEBUG_HANDLER` macro for the whole project. Now all the `BOOST_ASSERT` and `BOOST_ASSERT_MSG` will call our functions `assertion_failed` and `assertion_failed_msg` in case of failure. In `assertion_failed_msg` we output information that was provided by the assertion macro and [classref stacktrace::stacktrace]:
 
 ```
 Expression 'i < N' is false in function 'T& boost::array<T, N>::operator[](boost::array<T, N>::size_type) [with T = int; long unsigned int N = 5ul; boost::array<T, N>::reference = int&; boost::array<T, N>::size_type = long unsigned int]': out of range.
@@ -193,7 +193,7 @@ See [link stacktrace.configuration_and_build section "Configuration and Build"] 
 
 [section Saving stacktraces by specified format]
 
-[classref boost::stacktrace::stacktrace] provides access to individual [classref boost::stacktrace::frame frames] of the stacktrace,
+[classref stacktrace::stacktrace] provides access to individual [classref stacktrace::frame frames] of the stacktrace,
 so that you could save stacktrace information in your own format. Consider the example, that saves only function addresses of each frame:
 
 [getting_started_trace_addresses]
@@ -208,7 +208,7 @@ Code from above will output:
 
 [section Getting function information from pointer]
 
-[classref boost::stacktrace::frame] provides information about functions. You may construct that class from function pointer and get the function name at runtime:
+[classref stacktrace::frame] provides information about functions. You may construct that class from function pointer and get the function name at runtime:
 
 [getting_started_debug_function]
 
@@ -348,7 +348,7 @@ There are multiple ways to deal with that issue if you distribute PDB files alon
 In order of helping and advising:
 
 * Great thanks to Bjorn Reese for highlighting the async-signal-safety issues.
-* Great thanks to Nat Goodspeed for requesting [classref boost::stacktrace::frame] like class.
+* Great thanks to Nat Goodspeed for requesting [classref stacktrace::frame] like class.
 * Great thanks to Niall Douglas for making an initial review, helping with some platforms and giving great hints on library design.
 * Great thanks to all the library reviewers.
 

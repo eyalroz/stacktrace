@@ -17,7 +17,7 @@
 #include <boost/type_traits/is_pointer.hpp>
 #include <boost/type_traits/make_unsigned.hpp>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 BOOST_STATIC_CONSTEXPR char to_hex_array_bytes[] = "0123456789ABCDEF";
 
@@ -49,6 +49,6 @@ inline boost::array<char, 2 + sizeof(void*) * 2 + 1> to_hex_array(const void* ad
     );
 }
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_TO_HEX_ARRAY_HPP_

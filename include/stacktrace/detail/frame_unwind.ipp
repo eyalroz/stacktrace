@@ -29,12 +29,12 @@
 #   include <stacktrace/detail/unwind_base_impls.hpp>
 #endif
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 template <class Base>
 class to_string_impl_base: private Base {
 public:
-    std::string operator()(boost::stacktrace::detail::native_frame_ptr_t addr) {
+    std::string operator()(stacktrace::detail::native_frame_ptr_t addr) {
         Base::res.clear();
         Base::prepare_function_name(addr);
         if (!Base::res.empty()) {
@@ -47,7 +47,7 @@ public:
             return Base::res;
         }
 
-        boost::stacktrace::detail::location_from_symbol loc(addr);
+        stacktrace::detail::location_from_symbol loc(addr);
         if (!loc.empty()) {
             Base::res += " in ";
             Base::res += loc.name();
@@ -70,7 +70,7 @@ std::string to_string(const frame* frames, std::size_t size) {
         if (i < 10) {
             res += ' ';
         }
-        res += boost::stacktrace::detail::to_dec_array(i).data();
+        res += stacktrace::detail::to_dec_array(i).data();
         res += '#';
         res += ' ';
         res += impl(frames[i].address());
@@ -96,7 +96,7 @@ std::string frame::name() const {
         return boost::core::demangle(dli.dli_sname);
     }
 #endif
-    return boost::stacktrace::detail::name_impl(addr_);
+    return stacktrace::detail::name_impl(addr_);
 }
 
 std::string to_string(const frame& f) {
@@ -104,7 +104,7 @@ std::string to_string(const frame& f) {
         return std::string();
     }
 
-    boost::stacktrace::detail::to_string_impl impl;
+    stacktrace::detail::to_string_impl impl;
     return impl(f.address());
 }
 

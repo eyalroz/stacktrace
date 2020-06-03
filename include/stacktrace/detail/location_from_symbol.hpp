@@ -18,7 +18,7 @@
 #   include <boost/winapi/dll.hpp>
 #endif
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 #if !defined(BOOST_WINDOWS) && !defined(__CYGWIN__)
 class location_from_symbol {
@@ -100,6 +100,6 @@ public:
 };
 #endif
 
-}}} // namespace boost::stacktrace::detail
+}}} // namespace stacktrace::detail
 
 #endif // STACKTRACE_DETAIL_LOCATION_FROM_SYMBOL_HPP_

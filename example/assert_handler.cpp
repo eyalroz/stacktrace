@@ -34,7 +34,7 @@ BOOST_NOINLINE void foo(int i) {
 namespace boost {
     inline void assertion_failed_msg(char const* expr, char const* msg, char const* function, char const* /*file*/, long /*line*/) {
         std::cerr << "Expression '" << expr << "' is false in function '" << function << "': " << (msg ? msg : "<...>") << ".\n"
-            << "Backtrace:\n" << boost::stacktrace::stacktrace() << '\n';
+            << "Backtrace:\n" << stacktrace::stacktrace() << '\n';
         /*<-*/ std::exit(0); /*->*/
         /*=std::abort();*/
     }

@@ -14,7 +14,7 @@
 
 #include <stacktrace/frame.hpp>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 std::string to_string(const frame* /*frames*/, std::size_t /*count*/) {
     return std::string();

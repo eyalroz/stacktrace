@@ -18,7 +18,7 @@ struct test_struct {
 
 template <class F1, class F2>
 void test(F1 foo1, F2 foo2) {
-    using boost::stacktrace::detail::void_ptr_cast;
+    using stacktrace::detail::void_ptr_cast;
 
     typedef void(*void_f_ptr)();
 
@@ -64,8 +64,8 @@ int main() {
 
     typedef void(func_t)();
     test(
-        boost::stacktrace::detail::void_ptr_cast<func_t* const>(foo1_func),
-        boost::stacktrace::detail::void_ptr_cast<func_t* const>(foo2_func)
+        stacktrace::detail::void_ptr_cast<func_t* const>(foo1_func),
+        stacktrace::detail::void_ptr_cast<func_t* const>(foo2_func)
     );
 
     // Testing for variables (just in case...)

@@ -14,13 +14,13 @@
 
 #include <stacktrace/frame.hpp>
 
-namespace boost { namespace stacktrace { namespace detail {
+namespace stacktrace { namespace detail {
 
 struct to_string_using_nothing {
     std::string res;
 
     void prepare_function_name(const void* addr) {
-        res = boost::stacktrace::frame(addr).name();
+        res = stacktrace::frame(addr).name();
     }
 
     bool prepare_source_location(const void* /*addr*/) const BOOST_NOEXCEPT {

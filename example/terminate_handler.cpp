@@ -30,7 +30,7 @@ BOOST_NOINLINE void foo(int i) {
 
 void my_signal_handler(int signum) {
     ::signal(signum, SIG_DFL);
-    boost::stacktrace::safe_dump_to("./backtrace.dump");
+    stacktrace::safe_dump_to("./backtrace.dump");
     ::raise(SIGABRT);
 }
 //]
@@ -59,7 +59,7 @@ void my_signal_handler2(int signum) {
     ::signal(signum, SIG_DFL);
     void** f = static_cast<void**>(g_region.get_address());
     *f = reinterpret_cast<void*>(1);                      // Setting flag that shared memory now constains stacktrace.
-    boost::stacktrace::safe_dump_to(f + 1, g_region.get_size() - sizeof(void*));
+    stacktrace::safe_dump_to(f + 1, g_region.get_size() - sizeof(void*));
 
     ::raise(SIGABRT);
 }
@@ -104,7 +104,7 @@ int run_2(const char* argv[]) {
             return 21;
         }
 
-        boost::stacktrace::stacktrace st = boost::stacktrace::stacktrace::from_dump(std::cin);
+        stacktrace::stacktrace st = stacktrace::stacktrace::from_dump(std::cin);
         if (st) {
             return 22;
         }
@@ -116,7 +116,7 @@ int run_2(const char* argv[]) {
         // there is a backtrace
         std::ifstream ifs("./backtrace.dump");
 
-        boost::stacktrace::stacktrace st = boost::stacktrace::stacktrace::from_dump(ifs);
+        stacktrace::stacktrace st = stacktrace::stacktrace::from_dump(ifs);
         std::cout << "Previous run crashed:\n" << st << std::endl; /*<-*/
 
         if (!st) {
@@ -169,8 +169,8 @@ int run_4(const char* argv[]) {
 //[getting_started_on_program_restart_shmem
     void** f = static_cast<void**>(g_region.get_address());
     if (*f) {                                                 // Checking if memory constains stacktrace.
-        boost::stacktrace::stacktrace st 
-            = boost::stacktrace::stacktrace::from_dump(f + 1, g_region.get_size() - sizeof(bool));
+        stacktrace::stacktrace st 
+            = stacktrace::stacktrace::from_dump(f + 1, g_region.get_size() - sizeof(bool));
 
         std::cout << "Previous run crashed and left trace in shared memory:\n" << st << std::endl;
         *f = 0; /*<-*/
@@ -196,16 +196,16 @@ int run_4(const char* argv[]) {
 #include <sstream>
 
 int test_inplace() {
-    const bool is_noop = !boost::stacktrace::stacktrace();
+    const bool is_noop = !stacktrace::stacktrace();
 
     {
         // This is very dependent on compiler and link flags. No sane way to make it work, because:
         // * BOOST_NOINLINE could be ignored by MSVC compiler if link-time optimization is enabled.
         // * BOOST_FORCEINLINE could be ignored by GCC depending on the std::vector default constructor length.
-        const std::size_t frames_ss1 = boost::stacktrace::safe_dump_to("./backtrace2.dump");
-        boost::stacktrace::stacktrace ss2;
+        const std::size_t frames_ss1 = stacktrace::safe_dump_to("./backtrace2.dump");
+        stacktrace::stacktrace ss2;
         std::ifstream ifs("./backtrace2.dump");
-        boost::stacktrace::stacktrace ss1 = boost::stacktrace::stacktrace::from_dump(ifs);
+        stacktrace::stacktrace ss1 = stacktrace::stacktrace::from_dump(ifs);
         ifs.close();
         boost::filesystem::remove("./backtrace2.dump");
 
@@ -221,9 +221,9 @@ int test_inplace() {
         // * BOOST_NOINLINE could be ignored by MSVC compiler if link-time optimization is enabled.
         // * BOOST_FORCEINLINE could be ignored by GCC depending on the std::vector default constructor length.
         void* data[1024];
-        const std::size_t frames_ss1 = boost::stacktrace::safe_dump_to(data, sizeof(data));
-        boost::stacktrace::stacktrace ss2;
-        boost::stacktrace::stacktrace ss1 = boost::stacktrace::stacktrace::from_dump(data, sizeof(data));
+        const std::size_t frames_ss1 = stacktrace::safe_dump_to(data, sizeof(data));
+        stacktrace::stacktrace ss2;
+        stacktrace::stacktrace ss1 = stacktrace::stacktrace::from_dump(data, sizeof(data));
 
         if (ss1.size() + 1 != frames_ss1 || ss1.size() != ss2.size()) {
             std::cerr << "53: Stacktraces differ. Dumped size == " << frames_ss1 << ".\n" << ss1 << "\n vs \n" << ss2 << '\n';
@@ -234,8 +234,8 @@ int test_inplace() {
 
     {
         void* data[1024];
-        boost::stacktrace::safe_dump_to(1024, data, sizeof(data));
-        if (boost::stacktrace::stacktrace::from_dump(data, sizeof(data))) {
+        stacktrace::safe_dump_to(1024, data, sizeof(data));
+        if (stacktrace::stacktrace::from_dump(data, sizeof(data))) {
             std::cerr << "Stacktrace not empty!\n";
             return 55;
         }
@@ -243,14 +243,14 @@ int test_inplace() {
 
     {
         void* data[1024];
-        boost::stacktrace::safe_dump_to(1, data, sizeof(data));
-        if (!is_noop && !boost::stacktrace::stacktrace::from_dump(data, sizeof(data))) {
+        stacktrace::safe_dump_to(1, data, sizeof(data));
+        if (!is_noop && !stacktrace::stacktrace::from_dump(data, sizeof(data))) {
             std::cerr << "Stacktrace empty!\n";
             return 56;
         }
-        const std::size_t size_1_skipped = boost::stacktrace::stacktrace::from_dump(data, sizeof(data)).size();
-        boost::stacktrace::safe_dump_to(0, data, sizeof(data));
-        const std::size_t size_0_skipped = boost::stacktrace::stacktrace::from_dump(data, sizeof(data)).size();
+        const std::size_t size_1_skipped = stacktrace::stacktrace::from_dump(data, sizeof(data)).size();
+        stacktrace::safe_dump_to(0, data, sizeof(data));
+        const std::size_t size_0_skipped = stacktrace::stacktrace::from_dump(data, sizeof(data)).size();
 
         if (!is_noop && (size_1_skipped + 1 != size_0_skipped)) {
             std::cerr << "failed to skip 1 frame!\n";
@@ -259,14 +259,14 @@ int test_inplace() {
     }
 
     {
-        boost::stacktrace::safe_dump_to(0, 1, "./backtrace3.dump");
+        stacktrace::safe_dump_to(0, 1, "./backtrace3.dump");
         std::ifstream ifs("./backtrace3.dump");
-        boost::stacktrace::stacktrace ss1 = boost::stacktrace::stacktrace::from_dump(ifs);
+        stacktrace::stacktrace ss1 = stacktrace::stacktrace::from_dump(ifs);
         ifs.close();
 
-        boost::stacktrace::safe_dump_to(1, 1, "./backtrace3.dump");
+        stacktrace::safe_dump_to(1, 1, "./backtrace3.dump");
         ifs.open("./backtrace3.dump");
-        boost::stacktrace::stacktrace ss2 = boost::stacktrace::stacktrace::from_dump(ifs);
+        stacktrace::stacktrace ss2 = stacktrace::stacktrace::from_dump(ifs);
         ifs.close();
 
         boost::filesystem::remove("./backtrace3.dump");

@@ -12,14 +12,14 @@
 #include <boost/stacktrace.hpp>
 #include <boost/exception/all.hpp> 
 
-typedef boost::error_info<struct tag_stacktrace, boost::stacktrace::stacktrace> traced;
+typedef boost::error_info<struct tag_stacktrace, stacktrace::stacktrace> traced;
 //]
 
 //[getting_started_class_with_trace
 template <class E>
 void throw_with_trace(const E& e) {
     throw boost::enable_error_info(e)
-        << traced(boost::stacktrace::stacktrace());
+        << traced(stacktrace::stacktrace());
 } 
 //]
 
@@ -66,7 +66,7 @@ int main() {
         foo(5); // testing assert handler
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
-        const boost::stacktrace::stacktrace* st = boost::get_error_info<traced>(e);
+        const stacktrace::stacktrace* st = boost::get_error_info<traced>(e);
         if (st) {
             std::cerr << *st << '\n'; /*<-*/ return 0; /*->*/
         } /*<-*/ return 3; /*->*/

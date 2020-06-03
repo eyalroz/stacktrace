@@ -42,8 +42,8 @@ BOOST_ST_API BOOST_NOINLINE stacktrace return_from_nested_namespaces() {
     return get_backtrace_from_nested_namespaces();
 }
 
-BOOST_ST_API BOOST_NOINLINE boost::stacktrace::stacktrace make_some_stacktrace1_impl(int d = 0) {
-    boost::stacktrace::stacktrace result(0, 4);
+BOOST_ST_API BOOST_NOINLINE stacktrace::stacktrace make_some_stacktrace1_impl(int d = 0) {
+    stacktrace::stacktrace result(0, 4);
     if (result.size() < 4) {
         if (d > 4) throw std::runtime_error("Stack is not growing in test OR stacktrace fails to work in `bar1` function.");
         return make_some_stacktrace1_impl(d + 1);
@@ -51,8 +51,8 @@ BOOST_ST_API BOOST_NOINLINE boost::stacktrace::stacktrace make_some_stacktrace1_
     return result;
 }
 
-BOOST_ST_API BOOST_NOINLINE boost::stacktrace::stacktrace make_some_stacktrace2_impl(int d = 0) {
-    boost::stacktrace::stacktrace result(0, 4);
+BOOST_ST_API BOOST_NOINLINE stacktrace::stacktrace make_some_stacktrace2_impl(int d = 0) {
+    stacktrace::stacktrace result(0, 4);
     if (result.size() < 4) {
         if (d > 4) throw std::runtime_error("Stack is not growing in test OR stacktrace fails to work in `bar2` function.");
         return make_some_stacktrace2_impl(d + 1);
@@ -60,13 +60,13 @@ BOOST_ST_API BOOST_NOINLINE boost::stacktrace::stacktrace make_some_stacktrace2_
     return result;
 }
 
-BOOST_ST_API BOOST_NOINLINE boost::stacktrace::stacktrace make_some_stacktrace1() {
-    boost::stacktrace::stacktrace result = make_some_stacktrace1_impl();
+BOOST_ST_API BOOST_NOINLINE stacktrace::stacktrace make_some_stacktrace1() {
+    stacktrace::stacktrace result = make_some_stacktrace1_impl();
     return result;
 }
 
-BOOST_ST_API BOOST_NOINLINE boost::stacktrace::stacktrace make_some_stacktrace2() {
-    boost::stacktrace::stacktrace result = make_some_stacktrace2_impl();
+BOOST_ST_API BOOST_NOINLINE stacktrace::stacktrace make_some_stacktrace2() {
+    stacktrace::stacktrace result = make_some_stacktrace2_impl();
     return result;
 }
 

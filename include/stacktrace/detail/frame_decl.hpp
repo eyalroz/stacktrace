@@ -17,7 +17,7 @@
 
 #include <boost/core/explicit_operator_bool.hpp>
 
-#include <stacktrace/safe_dump_to.hpp> // boost::stacktrace::detail::native_frame_ptr_t
+#include <stacktrace/safe_dump_to.hpp> // stacktrace::detail::native_frame_ptr_t
 #include <stacktrace/detail/void_ptr_cast.hpp>
 
 #include <stacktrace/detail/push_options.h>
@@ -25,13 +25,13 @@
 /// @file stacktrace/detail/frame_decl.hpp
 /// Use <stacktrace/frame.hpp> header instead of this one!
 
-namespace boost { namespace stacktrace {
+namespace stacktrace {
 
-/// @class boost::stacktrace::frame stacktrace/detail/frame_decl.hpp <stacktrace/frame.hpp>
+/// @class stacktrace::frame stacktrace/detail/frame_decl.hpp <stacktrace/frame.hpp>
 /// @brief Class that stores frame/function address and can get information about it at runtime.
 class frame {
 public:
-    typedef boost::stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
+    typedef stacktrace::detail::native_frame_ptr_t native_frame_ptr_t;
 
 private:
     /// @cond
@@ -87,7 +87,7 @@ public:
     /// @throws Nothing.
     template <class T>
     explicit frame(T* function_addr) BOOST_NOEXCEPT
-        : addr_(boost::stacktrace::detail::void_ptr_cast<native_frame_ptr_t>(function_addr))
+        : addr_(stacktrace::detail::void_ptr_cast<native_frame_ptr_t>(function_addr))
     {}
 
     /// @returns Name of the frame (function name in a human readable form).
